@@ -323,6 +323,10 @@ let g:tagbar_type_typescript = {
   \ ]
 \ }
 
+" We need to do this to stop ft-sql from continually complaining with the error:
+" SQLComplete: the dbext plugin must be loaded for dynamic sql completion
+let g:omni_sql_no_default_maps = 1
+
 if has('gui_running')
   set guifont=Hack\ 10 " comes from https://github.com/powerline/fonts/tree/master/Hack
 endif
