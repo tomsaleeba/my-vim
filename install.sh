@@ -135,6 +135,7 @@ filetype plugin indent on
 """"""""""""""""""""""""""""""
 " use <C-y> to stop completion (dismiss popup)
 let g:ycm_autoclose_preview_window_after_insertion = 1
+map <F9> :YcmCompleter FixIt<CR>
 
 """"""""""""""""""""""""""""""
 " => bufExplorer plugin
