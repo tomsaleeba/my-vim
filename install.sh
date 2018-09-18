@@ -65,8 +65,6 @@ declare -a plugins=(
   "https://github.com/airblade/vim-gitgutter"
   "https://github.com/bling/vim-airline"
   "https://github.com/chaoren/vim-wordmotion.git"
-  "https://github.com/christoomey/vim-tmux-navigator"
-  "https://github.com/derekwyatt/vim-scala"
   "https://github.com/easymotion/vim-easymotion"
   "https://github.com/ekalinin/Dockerfile.vim"
   "https://github.com/elzr/vim-json"
@@ -103,6 +101,7 @@ declare -a plugins=(
   "https://github.com/vim-scripts/YankRing.vim"
   "https://github.com/vim-scripts/mru.vim"
   "https://github.com/vim-scripts/taglist.vim"
+  "https://github.com/yssl/QFEnter"
   # theme:
   "https://github.com/dolph/vim-colors-solarized-black"
 )
@@ -125,6 +124,9 @@ cat <<EOF >> $vimrc
 execute pathogen#infect()
 syntax on
 filetype plugin indent on
+" thanks https://stackoverflow.com/a/6726904/1410035 for split settings
+set splitbelow
+set splitright
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Huge thanks to "Amir Salihefendic" : https://github.com/amix
@@ -190,8 +192,8 @@ let g:vim_markdown_folding_disabled = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Nerd Tree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:NERDTreeWinPos = "right"
-let g:NERDTreeWinSize=50
+let g:NERDTreeWinPos = "left"
+let g:NERDTreeWinSize=40
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark
 map <leader>nf :NERDTreeFind<cr>
@@ -278,6 +280,16 @@ if exists(":Tabularize")
   nmap <Leader>a: :Tabularize /:\zs<CR>
   vmap <Leader>a: :Tabularize /:\zs<CR>
 endif
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => QFEnter
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set switchbuf=useopen " make sure new tabs don't open with <CR>
+let g:qfenter_keymap = {}
+let g:qfenter_keymap.vopen = ['<C-v>']
+let g:qfenter_keymap.hopen = ['<C-CR>', '<C-s>', '<C-x>']
+let g:qfenter_keymap.topen = ['<C-t>']
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
