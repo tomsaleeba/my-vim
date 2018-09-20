@@ -89,6 +89,7 @@ declare -a plugins=(
   "https://github.com/scrooloose/nerdcommenter"
   "https://github.com/scrooloose/nerdtree"
   "https://github.com/scrooloose/syntastic"
+  "https://github.com/stephpy/vim-yaml"
   "https://github.com/terryma/vim-expand-region"
   "https://github.com/terryma/vim-multiple-cursors"
   "https://github.com/tomtom/tlib_vim"
