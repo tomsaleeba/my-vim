@@ -38,6 +38,14 @@ clone_or_pull () {
 
 cd $bundleDir
 
+# Install gvim
+# TODO add flag to skip this
+echo '[INFO] installing/updating gvim'
+sudo apt-get -y install \
+  exuberant-ctags \
+  vim-gtk \
+  cmake
+
 # YouCompleteMe
 echo '[INFO] processing YouCompleteMe'
 clone_or_pull https://github.com/Valloric/YouCompleteMe
@@ -349,10 +357,4 @@ EOF
 # Pathogen help tags generation
 echo '[INFO] running pathogen#helptags()'
 vim -c 'execute pathogen#helptags()' -c q
-
-# Install gvim
-echo '[INFO] installing/updating gvim'
-sudo apt-get -y install \
-  exuberant-ctags \
-  vim-gtk
 
