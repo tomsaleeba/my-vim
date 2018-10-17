@@ -44,6 +44,8 @@ echo '[INFO] installing/updating gvim'
 sudo apt-get -y install \
   exuberant-ctags \
   vim-gtk \
+  libpython2.7-dev \
+  g++ \
   cmake
 
 # YouCompleteMe
@@ -118,6 +120,16 @@ for curr in "${plugins[@]}"; do
   echo "[INFO] processing $curr"
   clone_or_pull "$curr" &
 done
+installPowerline () {
+  pushd /tmp
+  git clone https://github.com/powerline/fonts.git --depth=1
+  cd fonts
+  ./install.sh
+  cd ..
+  rm -fr fonts
+  popd
+}
+installPowerline &
 wait # for parallel clone_or_pulls to finish
 
 # add some awesomeness to the .vimrc
