@@ -119,6 +119,7 @@ echo '" end of amix/basic.vim'                                                  
 curl -s https://raw.githubusercontent.com/amix/vimrc/master/vimrcs/extended.vim >> $vimrc
 echo '" end of amix/extended.vim'                                               >> $vimrc
 sed -i '/colorscheme peaksea/d' $vimrc
+sed -i '/Parenthesis.bracket/,+18 d' $vimrc # remove the $ shortcuts from amix
 
 # add our own config to .vimrc
 cat <<EOF >> $vimrc
@@ -173,7 +174,7 @@ let g:ctrlp_map = '<c-f>'
 map <c-b> :CtrlPBuffer<cr>
 
 let g:ctrlp_max_height = 20
-let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
+let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee\|lcov-report'
 let g:ctrlp_show_hidden = 1
 
 
