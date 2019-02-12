@@ -49,17 +49,19 @@ sudo apt-get -y install \
   cmake
 
 # YouCompleteMe
-echo '[INFO] processing YouCompleteMe'
-clone_or_pull https://github.com/Valloric/YouCompleteMe
-pushd YouCompleteMe
-git submodule update --init --recursive
-# TODO only run following if changes are present
-# maybe by comparing `find . -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" "` before and after
-if [ "$isSkipYCMBuild" == "0" ]; then
+if [ "$isSkipYCMBuild" == "1" ]; then
+  # if we pull fresh stuff but don't build it, things break. So just don't touch anything
   echo '[INFO] skipping YCM build'
+else
+  echo '[INFO] processing YouCompleteMe'
+  clone_or_pull https://github.com/Valloric/YouCompleteMe
+  pushd YouCompleteMe
+  git submodule update --init --recursive
+  # TODO only run following if changes are present
+  # maybe by comparing `find . -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" "` before and after
   python install.py
+  popd
 fi
-popd
 
 # Install and compile procvim.vim
 echo '[INFO] processing vimproc'
