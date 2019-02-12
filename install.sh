@@ -151,6 +151,7 @@ filetype plugin indent on
 " thanks https://stackoverflow.com/a/6726904/1410035 for split settings
 set splitbelow
 set splitright
+set tw=120
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Huge thanks to "Amir Salihefendic" : https://github.com/amix
@@ -196,7 +197,7 @@ let g:ctrlp_map = '<c-f>'
 map <c-b> :CtrlPBuffer<cr>
 
 let g:ctrlp_max_height = 20
-let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee\|lcov-report'
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|lcov-report)|(\.(swp|ico|git|svn|venv|DS_Store))$'
 let g:ctrlp_show_hidden = 1
 
 
@@ -365,7 +366,7 @@ let g:tagbar_type_typescript = {
 let g:omni_sql_no_default_maps = 1
 
 if has('gui_running')
-  set guifont=Hack\ 10 " comes from https://github.com/powerline/fonts/tree/master/Hack
+  set guifont=Hack\ 12 " comes from https://github.com/powerline/fonts/tree/master/Hack
 endif
 EOF
 
