@@ -136,7 +136,11 @@ wait # for parallel clone_or_pulls to finish
 
 # add some awesomeness to the .vimrc
 echo '[INFO] updating the vimrc'
-curl -s https://raw.githubusercontent.com/amix/vimrc/master/vimrcs/basic.vim     > $vimrc
+
+# must be before first ColorScheme command so it doesn't get reset (http://vim.wikia.com/wiki/Highlight_unwanted_spaces)
+echo 'autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red'     > $vimrc
+
+curl -s https://raw.githubusercontent.com/amix/vimrc/master/vimrcs/basic.vim    >> $vimrc
 echo '" end of amix/basic.vim'                                                  >> $vimrc
 curl -s https://raw.githubusercontent.com/amix/vimrc/master/vimrcs/extended.vim >> $vimrc
 echo '" end of amix/extended.vim'                                               >> $vimrc
@@ -144,7 +148,7 @@ sed -i '/colorscheme peaksea/d' $vimrc
 sed -i '/Parenthesis.bracket/,+18 d' $vimrc # remove the $ shortcuts from amix
 
 # add our own config to .vimrc
-cat <<EOF >> $vimrc
+cat >> $vimrc <<EOF
 execute pathogen#infect()
 syntax on
 filetype plugin indent on
@@ -368,6 +372,9 @@ let g:omni_sql_no_default_maps = 1
 if has('gui_running')
   set guifont=Hack\ 12 " comes from https://github.com/powerline/fonts/tree/master/Hack
 endif
+
+" uses ColorScheme defined at start of .vimrc
+match ExtraWhitespace /\s\+$/
 EOF
 
 # Pathogen help tags generation
