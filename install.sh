@@ -1,9 +1,9 @@
 #!/bin/bash
 # idempotent install script for Tom's vim setup
-set -e
+set -euo pipefail
 
 isSkipYCMBuild=0
-if [ ! -z "$1" ]; then
+if [ ! -z "${1:-}" ]; then
   echo '[INFO] YCM build will be skipped'
   isSkipYCMBuild=1
 fi
@@ -41,12 +41,21 @@ cd $bundleDir
 # Install gvim
 # TODO add flag to skip this
 echo '[INFO] installing/updating gvim'
-sudo apt-get -y install \
-  exuberant-ctags \
-  vim-gtk \
-  libpython2.7-dev \
-  g++ \
-  cmake
+# if $(which apt-get 2>&1 1> /dev/null); then
+# 	sudo apt-get -y install \
+# 	  exuberant-ctags \
+# 	  vim-gtk \
+# 	  libpython2.7-dev \
+# 	  g++ \
+# 	  cmake
+# fi
+if $(which pacman 2>&1 1> /dev/null); then
+	sudo pacman --noconfirm --needed -Sy \
+	  ctags \
+	  gvim \
+	  gcc \
+	  cmake
+fi
 
 # YouCompleteMe
 if [ "$isSkipYCMBuild" == "1" ]; then
