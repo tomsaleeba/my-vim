@@ -41,21 +41,21 @@ cd $bundleDir
 # Install gvim
 # TODO add flag to skip this
 echo '[INFO] installing/updating gvim'
-# if $(which apt-get 2>&1 1> /dev/null); then
-# 	sudo apt-get -y install \
-# 	  exuberant-ctags \
-# 	  vim-gtk \
-# 	  libpython2.7-dev \
-# 	  g++ \
-# 	  cmake
-# fi
-if $(which pacman 2>&1 1> /dev/null); then
-	sudo pacman --noconfirm --needed -Sy \
-	  ctags \
-	  gvim \
-	  gcc \
-	  cmake
-fi
+command -v apt-get > /dev/null 2>&1 && {
+  sudo apt-get -y install \
+    exuberant-ctags \
+    vim-gtk \
+    libpython2.7-dev \
+    g++ \
+    cmake
+}
+command -v pacman > /dev/null 2>&1 && {
+  sudo pacman --noconfirm --needed -Sy \
+    ctags \
+    gvim \
+    gcc \
+    cmake
+}
 
 # YouCompleteMe
 if [ "$isSkipYCMBuild" == "1" ]; then
@@ -125,7 +125,8 @@ declare -a plugins=(
   "https://github.com/vim-scripts/taglist.vim"
   "https://github.com/yssl/QFEnter"
   # theme:
-  "https://github.com/dolph/vim-colors-solarized-black"
+  # Matching terminal theme available at: https://github.com/morhetz/gruvbox-contrib
+  "https://github.com/morhetz/gruvbox.git"
 )
 for curr in "${plugins[@]}"; do
   echo "[INFO] processing $curr"
@@ -281,7 +282,7 @@ nnoremap <Leader>, :bp<CR>
 " => color and theme
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set background=dark
-colorscheme solarized
+colorscheme gruvbox
 set relativenumber
 set number
 set cursorline
