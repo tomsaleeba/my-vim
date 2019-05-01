@@ -38,7 +38,8 @@ clone_or_pull () {
 
 cd $bundleDir
 
-# Install gvim
+# Install gvim. Even if you want to use vim in a terminal, this is good because you get the fully featured vim (with
+# clipboard integration)
 # TODO add flag to skip this
 echo '[INFO] installing/updating gvim'
 command -v apt-get > /dev/null 2>&1 && {
@@ -385,6 +386,17 @@ endif
 
 " uses ColorScheme defined at start of .vimrc
 match ExtraWhitespace /\s\+$/
+
+
+" allow alt+<letter> keys to work in a terminal
+" thanks https://stackoverflow.com/a/10216459
+let c='a'
+while c <= 'z'
+  exec "set <A-".c.">=\e".c
+  exec "imap \e".c." <A-".c.">"
+  let c = nr2char(1+char2nr(c))
+endw
+set timeout ttimeoutlen=50
 EOF
 
 # Pathogen help tags generation
