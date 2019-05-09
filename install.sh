@@ -10,6 +10,7 @@ fi
 
 bundleDir=$HOME/.vim/bundle
 vimrc=$HOME/.vimrc
+# TODO add $HOME/.config/nvim/init.vim for neovim
 
 cd $HOME
 echo '[INFO] creating required dirs'
@@ -56,6 +57,7 @@ command -v pacman > /dev/null 2>&1 && {
     gvim \
     gcc \
     cmake
+    # neovim python-neovim
 }
 
 # YouCompleteMe
@@ -387,16 +389,24 @@ endif
 " uses ColorScheme defined at start of .vimrc
 match ExtraWhitespace /\s\+$/
 
+if !has('nvim')
+  " allow alt+<letter> keys to work in a terminal, for things like alt+j/k to move lines
+  " thanks https://stackoverflow.com/a/10216459
+  let c='a'
+  while c <= 'z'
+    exec "set <A-".c.">=\e".c
+    exec "imap \e".c." <A-".c.">"
+    let c = nr2char(1+char2nr(c))
+  endw
+  set timeout ttimeoutlen=50
 
-" allow alt+<letter> keys to work in a terminal
-" thanks https://stackoverflow.com/a/10216459
-let c='a'
-while c <= 'z'
-  exec "set <A-".c.">=\e".c
-  exec "imap \e".c." <A-".c.">"
-  let c = nr2char(1+char2nr(c))
-endw
-set timeout ttimeoutlen=50
+  " map Esc to exit terminal mode
+  tnoremap <Esc> <C-\><C-n>
+
+  " fix for yankring and neovim, no error on startup with non-text on clipboard
+  " thanks https://github.com/neovim/neovim/issues/2642#issuecomment-218232937
+  let g:yankring_clipboard_monitor=0
+endif
 EOF
 
 # Pathogen help tags generation
