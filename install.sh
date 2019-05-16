@@ -22,6 +22,11 @@ curl -LSso $HOME/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 uniqueId=`date +%Y%m%d_%H%M`
 old=$HOME/.oldvimrc_$uniqueId
 mv -f $vimrc $old > /dev/null && echo "backed up .vimrc to $old" # FIXME might need to pipe stderr to /dev/null
+find . \
+  -maxdepth 1 \
+  -name '.oldvimrc_*' \
+  -atime +14 \
+  -exec rm '{}' \; # delete backups older than 2 weeks
 touch $vimrc
 
 clone_or_pull () {
@@ -44,6 +49,7 @@ cd $bundleDir
 # TODO add flag to skip this
 echo '[INFO] installing/updating gvim'
 command -v apt-get > /dev/null 2>&1 && {
+  # debian/ubuntu
   sudo apt-get -y install \
     exuberant-ctags \
     vim-gtk \
@@ -52,6 +58,7 @@ command -v apt-get > /dev/null 2>&1 && {
     cmake
 }
 command -v pacman > /dev/null 2>&1 && {
+  # arch/manjaro
   sudo pacman --noconfirm --needed -Sy \
     ctags \
     gvim \
@@ -89,11 +96,14 @@ declare -a plugins=(
   "https://github.com/SirVer/ultisnips"
   "https://github.com/airblade/vim-gitgutter"
   "https://github.com/bling/vim-airline"
-  "https://github.com/chaoren/vim-wordmotion.git"
+  "https://github.com/chaoren/vim-wordmotion"
   "https://github.com/easymotion/vim-easymotion"
   "https://github.com/ekalinin/Dockerfile.vim"
   "https://github.com/elzr/vim-json"
   "https://github.com/godlygeek/tabular"
+  "https://github.com/google/vim-codefmt"
+  "https://github.com/google/vim-glaive"
+  "https://github.com/google/vim-maktaba"
   "https://github.com/groenewege/vim-less"
   "https://github.com/honza/vim-snippets"
   "https://github.com/jistr/vim-nerdtree-tabs"
@@ -130,7 +140,7 @@ declare -a plugins=(
   "https://github.com/yssl/QFEnter"
   # theme:
   # Matching terminal theme available at: https://github.com/morhetz/gruvbox-contrib
-  "https://github.com/morhetz/gruvbox.git"
+  "https://github.com/morhetz/gruvbox"
 )
 for curr in "${plugins[@]}"; do
   echo "[INFO] processing $curr"
@@ -169,7 +179,7 @@ filetype plugin indent on
 " thanks https://stackoverflow.com/a/6726904/1410035 for split settings
 set splitbelow
 set splitright
-set tw=120
+set tw=79
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Huge thanks to "Amir Salihefendic" : https://github.com/amix
@@ -363,6 +373,16 @@ let g:tsuquyomi_disable_default_mappings = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => syntastic
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:syntastic_java_checkers = [] " disable so YCM can handle
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => tagbar TypeScript
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:tagbar_type_typescript = {
@@ -378,6 +398,29 @@ let g:tagbar_type_typescript = {
     \ 'e:enums',
   \ ]
 \ }
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => google/vim-codefmt
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ensure you 'pip install --user yapf'
+" copied from https://github.com/google/vim-codefmt
+augroup autoformat_settings
+  autocmd FileType bzl AutoFormatBuffer buildifier
+  autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+  autocmd FileType dart AutoFormatBuffer dartfmt
+  autocmd FileType go AutoFormatBuffer gofmt
+  autocmd FileType gn AutoFormatBuffer gn
+  autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+  autocmd FileType java AutoFormatBuffer google-java-format
+  autocmd FileType python AutoFormatBuffer yapf
+  " Alternative: autocmd FileType python AutoFormatBuffer autopep8
+augroup END
+" the glaive#Install() should go after the "call vundle#end()"
+call glaive#Install()
+" Optional: Enable codefmt's default mappings on the <Leader>= prefix.
+Glaive codefmt plugin[mappings]
+
 
 " We need to do this to stop ft-sql from continually complaining with the error:
 " SQLComplete: the dbext plugin must be loaded for dynamic sql completion
