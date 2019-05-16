@@ -71,7 +71,8 @@ else
   git submodule update --init --recursive
   # TODO only run following if changes are present
   # maybe by comparing `find . -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" "` before and after
-  python install.py
+  python install.py --java-completer
+  # TODO make sure typescript is installed for JS support: npm install -g typescript
   popd
 fi
 
