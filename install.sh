@@ -25,8 +25,7 @@ mv -f $vimrc $old > /dev/null && echo "backed up .vimrc to $old" # FIXME might n
 find . \
   -maxdepth 1 \
   -name '.oldvimrc_*' \
-  -atime +14 \
-  -exec rm '{}' \; # delete backups older than 2 weeks
+  | tail -n +6 | xargs rm # only keep 6 backups
 touch $vimrc
 
 clone_or_pull () {
@@ -92,41 +91,38 @@ popd
 
 # install plugins
 declare -a plugins=(
-  "https://github.com/Raimondi/delimitMate"
-  "https://github.com/SirVer/ultisnips"
+  "https://github.com/Raimondi/delimitMate" # auto close quotes, parens, brackets, etc
+  "https://github.com/SirVer/ultisnips" # snippet engine
+    "https://github.com/honza/vim-snippets" # the snippets themselves
   "https://github.com/airblade/vim-gitgutter"
   "https://github.com/bling/vim-airline"
   "https://github.com/chaoren/vim-wordmotion"
   "https://github.com/easymotion/vim-easymotion"
   "https://github.com/ekalinin/Dockerfile.vim"
   "https://github.com/elzr/vim-json"
-  "https://github.com/godlygeek/tabular"
-  "https://github.com/google/vim-codefmt"
-  "https://github.com/google/vim-glaive"
-  "https://github.com/google/vim-maktaba"
+  "https://github.com/gabesoft/vim-ags" # silver searcher integrations, :Ags
+  "https://github.com/godlygeek/tabular" # <leader>a (mapped below) to autoformat markdown tables and JS dicts
+  "https://github.com/google/vim-codefmt" # run code formatters like yapf
+    "https://github.com/google/vim-glaive"
+    "https://github.com/google/vim-maktaba"
   "https://github.com/groenewege/vim-less"
-  "https://github.com/honza/vim-snippets"
-  "https://github.com/jistr/vim-nerdtree-tabs"
-  "https://github.com/jlanzarotta/bufexplorer"
   "https://github.com/kien/ctrlp.vim"
-  "https://github.com/leafgarland/typescript-vim"
-  "https://github.com/majutsushi/tagbar"
-  "https://github.com/marcweber/vim-addon-mw-utils"
+  "https://github.com/leafgarland/typescript-vim" # syntax file and other settings for TS, no autocomplete
+  "https://github.com/majutsushi/tagbar" # :TagbarToggle to show file overview
   "https://github.com/mbbill/undotree"
-  "https://github.com/michaeljsmith/vim-indent-object"
-  "https://github.com/nathanaelkane/vim-indent-guides"
+  "https://github.com/michaeljsmith/vim-indent-object" # select text objects by indent
+  "https://github.com/nathanaelkane/vim-indent-guides" # visual indent level, <leader>ig to toggle
   "https://github.com/othree/html5.vim"
   "https://github.com/pangloss/vim-javascript"
   "https://github.com/plasticboy/vim-markdown"
   "https://github.com/posva/vim-vue"
-  "https://github.com/qpkorr/vim-bufkill"
-  "https://github.com/Quramy/tsuquyomi"
+  "https://github.com/qpkorr/vim-bufkill" # :BD to kill buffer without saving
   "https://github.com/scrooloose/nerdcommenter"
   "https://github.com/scrooloose/nerdtree"
+    "https://github.com/jistr/vim-nerdtree-tabs" # common state for NerdTree on all tabs
   "https://github.com/scrooloose/syntastic"
   "https://github.com/stephpy/vim-yaml"
-  "https://github.com/terryma/vim-expand-region"
-  "https://github.com/terryma/vim-multiple-cursors"
+  "https://github.com/terryma/vim-expand-region" # use + to expand or _ to reduce selection
   "https://github.com/tomtom/tlib_vim"
   "https://github.com/tpope/vim-fugitive"
   "https://github.com/tpope/vim-haml"
@@ -135,8 +131,6 @@ declare -a plugins=(
   "https://github.com/tpope/vim-unimpaired"
   "https://github.com/vim-scripts/EasyGrep"
   "https://github.com/vim-scripts/YankRing.vim"
-  "https://github.com/vim-scripts/mru.vim"
-  "https://github.com/vim-scripts/taglist.vim"
   "https://github.com/yssl/QFEnter"
   # theme:
   # Matching terminal theme available at: https://github.com/morhetz/gruvbox-contrib
@@ -176,10 +170,23 @@ cat >> $vimrc <<EOF
 execute pathogen#infect()
 syntax on
 filetype plugin indent on
+set tw=79
+set encoding=utf-8
+
 " thanks https://stackoverflow.com/a/6726904/1410035 for split settings
 set splitbelow
 set splitright
-set tw=79
+
+" color and theme
+set background=dark
+colorscheme gruvbox
+set relativenumber
+set number
+set cursorline
+
+" Set Vim working directory to the current location
+set autochdir
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Huge thanks to "Amir Salihefendic" : https://github.com/amix
@@ -191,22 +198,6 @@ set tw=79
 " use <C-y> to stop completion (dismiss popup)
 let g:ycm_autoclose_preview_window_after_insertion = 1
 map <F9> :YcmCompleter FixIt<CR>
-
-""""""""""""""""""""""""""""""
-" => bufExplorer plugin
-""""""""""""""""""""""""""""""
-let g:bufExplorerDefaultHelp=0
-let g:bufExplorerShowRelativePath=1
-let g:bufExplorerFindActive=1
-let g:bufExplorerSortBy='name'
-map <leader>o :BufExplorer<cr>
-
-
-""""""""""""""""""""""""""""""
-" => MRU plugin
-""""""""""""""""""""""""""""""
-let MRU_Max_Entries = 400
-map <leader>f :MRU<CR>
 
 
 """"""""""""""""""""""""""""""
@@ -254,20 +245,22 @@ let NERDTreeShowHidden=1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Nerd Tree Tabs
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => TagBar
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <F8> :TagbarToggle<CR>
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => vim-multiple-cursors
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:multi_cursor_next_key="\<C-s>"
+nmap <leader>o :TagbarToggle<CR>
+let g:tagbar_type_typescript = {
+  \ 'ctagstype': 'typescript',
+  \ 'kinds': [
+    \ 'c:classes',
+    \ 'n:modules',
+    \ 'f:functions',
+    \ 'v:variables',
+    \ 'v:varlambdas',
+    \ 'm:members',
+    \ 'i:interfaces',
+    \ 'e:enums',
+  \ ]
+\ }
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -286,23 +279,6 @@ set laststatus=2
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => buffer switch
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <Leader>. :bn<CR>
-nnoremap <Leader>, :bp<CR>
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => color and theme
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set background=dark
-colorscheme gruvbox
-set relativenumber
-set number
-set cursorline
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Snippets
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:UltiSnipsExpandTrigger="<c-e>"
@@ -314,13 +290,7 @@ let g:UltiSnipsEditSplit="vertical"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => undotree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <F5> :UndotreeToggle<cr>
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Set Vim working directory to the current location
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set autochdir
+nnoremap <leader>u :UndotreeToggle<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -355,21 +325,26 @@ set ts=2 sw=2 et
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => michaeljsmith/vim-indent-object
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"| Key bindings | Description                                                 |
+"| ------------ | ----------------------------------------------------------- |
+"| <count>ai    | **A**n **I**ndentation level and line above.                |
+"| <count>ii    | **I**nner **I**ndentation level (**no line above**).        |
+"| <count>aI    | **A**n **I**ndentation level and lines above/below.         |
+"| <count>iI    | **I**nner **I**ndentation level (**no lines above/below**). |
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-vue
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:vue_disable_pre_processors=1 " make the plugin responsive
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => UTF-8
+" => vim-ags
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set encoding=utf-8
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Tsuquyomi
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:tsuquyomi_disable_default_mappings = 1
+" TODO consider using https://github.com/dbakker/vim-projectroot to always search in project root
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -380,24 +355,6 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => tagbar TypeScript
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:tagbar_type_typescript = {
-  \ 'ctagstype': 'typescript',
-  \ 'kinds': [
-    \ 'c:classes',
-    \ 'n:modules',
-    \ 'f:functions',
-    \ 'v:variables',
-    \ 'v:varlambdas',
-    \ 'm:members',
-    \ 'i:interfaces',
-    \ 'e:enums',
-  \ ]
-\ }
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -433,7 +390,7 @@ endif
 " uses ColorScheme defined at start of .vimrc
 match ExtraWhitespace /\s\+$/
 
-if !has('nvim')
+if !has('nvim') " checking *for* neovim, ! is not a *not* here
   " allow alt+<letter> keys to work in a terminal, for things like alt+j/k to move lines
   " thanks https://stackoverflow.com/a/10216459
   let c='a'
@@ -444,12 +401,8 @@ if !has('nvim')
   endw
   set timeout ttimeoutlen=50
 
-  " map Esc to exit terminal mode
+  " map Esc to exit terminal mode (:te)
   tnoremap <Esc> <C-\><C-n>
-
-  " fix for yankring and neovim, no error on startup with non-text on clipboard
-  " thanks https://github.com/neovim/neovim/issues/2642#issuecomment-218232937
-  let g:yankring_clipboard_monitor=0
 endif
 EOF
 
