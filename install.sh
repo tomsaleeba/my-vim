@@ -73,21 +73,21 @@ if [ "$isSkipYCMBuild" == "1" ]; then
 else
   echo '[INFO] processing YouCompleteMe'
   clone_or_pull https://github.com/Valloric/YouCompleteMe
-  pushd YouCompleteMe
+  pushd YouCompleteMe > /dev/null
   git submodule update --init --recursive
   # TODO only run following if changes are present
   # maybe by comparing `find . -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" "` before and after
   python install.py --java-completer
   # TODO make sure typescript is installed for JS support: npm install -g typescript
-  popd
+  popd > /dev/null
 fi
 
 # Install and compile procvim.vim
 echo '[INFO] processing vimproc'
 clone_or_pull https://github.com/Shougo/vimproc.vim
-pushd vimproc.vim
+pushd vimproc.vim > /dev/null
 make
-popd
+popd > /dev/null
 
 # install plugins
 declare -a plugins=(
@@ -140,18 +140,19 @@ for curr in "${plugins[@]}"; do
   echo "[INFO] processing $curr"
   clone_or_pull "$curr" &
 done
+wait # for parallel clone_or_pulls to finish
+
 installPowerline () {
-  pushd /tmp
+  pushd /tmp > /dev/null
   echo '[INFO] updating powerline fonts (fresh clone every time)'
   git clone https://github.com/powerline/fonts.git --depth=1
   cd fonts
   ./install.sh
   cd ..
   rm -fr fonts
-  popd
+  popd > /dev/null
 }
-installPowerline &
-wait # for parallel clone_or_pulls to finish
+installPowerline
 
 # add some awesomeness to the .vimrc
 echo '[INFO] updating the vimrc'
@@ -205,6 +206,11 @@ map <leader>f :YcmCompleter FixIt<CR>
 " => YankRing
 """"""""""""""""""""""""""""""
 let g:yankring_history_dir = '$HOME/.vim/temp_dirs'
+let g:yankring_min_element_length = 2
+let g:yankring_paste_using_g = 1
+let g:yankring_manage_numbered_reg = 1
+let g:yankring_clipboard_monitor = 0
+let g:yankring_manual_clipboard_check = 0
 map <leader>y :YRShow<CR>
 
 
