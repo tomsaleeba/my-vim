@@ -109,6 +109,7 @@ declare -a plugins=(
   "https://github.com/groenewege/vim-less"
   "https://github.com/kien/ctrlp.vim"
   "https://github.com/leafgarland/typescript-vim" # syntax file and other settings for TS, no autocomplete
+  "https://github.com/machakann/vim-highlightedyank"
   "https://github.com/majutsushi/tagbar" # :TagbarToggle to show file overview
   "https://github.com/maxbrunsfeld/vim-yankstack" # <M-p> to paste/cycle back, <M-P> to cycle forward
   "https://github.com/mbbill/undotree"
@@ -154,6 +155,10 @@ installPowerline () {
 }
 installPowerline
 
+# Pathogen help tags generation (run this before writing vimrc as it doesn't like :set inccommand)
+echo '[INFO] running pathogen#helptags()'
+vim -c 'execute pathogen#helptags()' -c q
+
 # add some awesomeness to the .vimrc
 echo '[INFO] updating the vimrc'
 
@@ -188,7 +193,6 @@ set cursorline
 
 " Set Vim working directory to the current location
 set autochdir
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Huge thanks to "Amir Salihefendic" : https://github.com/amix
@@ -392,10 +396,9 @@ if !has('nvim') " checking *for* neovim, ! is not a *not* here
 
   " map Esc to exit terminal mode (:te)
   tnoremap <Esc> <C-\><C-n>
+
+  " live substitute preview and highlighting
+  set inccommand=nosplit
 endif
 EOF
-
-# Pathogen help tags generation
-echo '[INFO] running pathogen#helptags()'
-vim -c 'execute pathogen#helptags()' -c q
 
