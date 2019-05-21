@@ -101,6 +101,7 @@ declare -a plugins=(
   "https://github.com/ekalinin/Dockerfile.vim"
   "https://github.com/elzr/vim-json"
   "https://github.com/gabesoft/vim-ags" # silver searcher integrations, :Ags
+    "https://github.com/dbakker/vim-projectroot" # run :Ags in project root
   "https://github.com/godlygeek/tabular" # <leader>a (mapped below) to autoformat markdown tables and JS dicts
   "https://github.com/google/vim-codefmt" # run code formatters like yapf
     "https://github.com/google/vim-glaive"
@@ -129,7 +130,6 @@ declare -a plugins=(
   "https://github.com/tpope/vim-repeat"
   "https://github.com/tpope/vim-surround"
   "https://github.com/tpope/vim-unimpaired"
-  "https://github.com/vim-scripts/EasyGrep"
   "https://github.com/vim-scripts/YankRing.vim"
   "https://github.com/yssl/QFEnter"
   # theme:
@@ -142,6 +142,7 @@ for curr in "${plugins[@]}"; do
 done
 installPowerline () {
   pushd /tmp
+  echo '[INFO] updating powerline fonts (fresh clone every time)'
   git clone https://github.com/powerline/fonts.git --depth=1
   cd fonts
   ./install.sh
@@ -219,13 +220,6 @@ map <C-b> :CtrlPBuffer<CR>
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|lcov-report)|(\.(swp|ico|git|svn|venv|DS_Store|pytest_cache|nuxt))$'
 let g:ctrlp_show_hidden = 1
-
-
-""""""""""""""""""""""""""""""
-" => Vim grep
-""""""""""""""""""""""""""""""
-let Grep_Skip_Dirs = 'RCS CVS SCCS .svn generated'
-set grepprg=/bin/grep\ -nH
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -344,7 +338,8 @@ let g:vue_disable_pre_processors=1 " make the plugin responsive
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-ags
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TODO consider using https://github.com/dbakker/vim-projectroot to always search in project root
+map <leader>g :ProjectRootExe Ags<space>
+let g:ags_agcontext = 0
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
