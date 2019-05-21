@@ -197,13 +197,14 @@ set autochdir
 """"""""""""""""""""""""""""""
 " use <C-y> to stop completion (dismiss popup)
 let g:ycm_autoclose_preview_window_after_insertion = 1
-map <F9> :YcmCompleter FixIt<CR>
+map <leader>f :YcmCompleter FixIt<CR>
 
 
 """"""""""""""""""""""""""""""
 " => YankRing
 """"""""""""""""""""""""""""""
 let g:yankring_history_dir = '$HOME/.vim/temp_dirs'
+map <leader>y :YRShow<CR>
 
 
 """"""""""""""""""""""""""""""
@@ -212,8 +213,8 @@ let g:yankring_history_dir = '$HOME/.vim/temp_dirs'
 " use ctrl+y to cancel popup
 let g:ctrlp_working_path_mode = 'ra'
 
-let g:ctrlp_map = '<c-f>'
-map <c-b> :CtrlPBuffer<cr>
+let g:ctrlp_map = '<C-f>'
+map <C-b> :CtrlPBuffer<CR>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|lcov-report)|(\.(swp|ico|git|svn|venv|DS_Store|pytest_cache|nuxt))$'
@@ -320,7 +321,6 @@ let g:qfenter_keymap.topen = ['<C-t>']
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
-nmap <F6> :IndentGuidesToggle<CR>
 set ts=2 sw=2 et
 
 
