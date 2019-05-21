@@ -110,6 +110,7 @@ declare -a plugins=(
   "https://github.com/kien/ctrlp.vim"
   "https://github.com/leafgarland/typescript-vim" # syntax file and other settings for TS, no autocomplete
   "https://github.com/majutsushi/tagbar" # :TagbarToggle to show file overview
+  "https://github.com/maxbrunsfeld/vim-yankstack" # <M-p> to paste/cycle back, <M-P> to cycle forward
   "https://github.com/mbbill/undotree"
   "https://github.com/michaeljsmith/vim-indent-object" # select text objects by indent
   "https://github.com/nathanaelkane/vim-indent-guides" # visual indent level, <leader>ig to toggle
@@ -130,7 +131,6 @@ declare -a plugins=(
   "https://github.com/tpope/vim-repeat"
   "https://github.com/tpope/vim-surround"
   "https://github.com/tpope/vim-unimpaired"
-  "https://github.com/vim-scripts/YankRing.vim"
   "https://github.com/yssl/QFEnter"
   # theme:
   # Matching terminal theme available at: https://github.com/morhetz/gruvbox-contrib
@@ -200,18 +200,6 @@ set autochdir
 " use <C-y> to stop completion (dismiss popup)
 let g:ycm_autoclose_preview_window_after_insertion = 1
 map <leader>f :YcmCompleter FixIt<CR>
-
-
-""""""""""""""""""""""""""""""
-" => YankRing
-""""""""""""""""""""""""""""""
-let g:yankring_history_dir = '$HOME/.vim/temp_dirs'
-let g:yankring_min_element_length = 2
-let g:yankring_paste_using_g = 1
-let g:yankring_manage_numbered_reg = 1
-let g:yankring_clipboard_monitor = 0
-let g:yankring_manual_clipboard_check = 0
-map <leader>y :YRShow<CR>
 
 
 """"""""""""""""""""""""""""""
