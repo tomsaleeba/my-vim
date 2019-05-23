@@ -63,7 +63,8 @@ command -v pacman > /dev/null 2>&1 && {
     gvim \
     gcc \
     cmake
-    # neovim python-neovim
+    # neovim python-neovim \
+    # clang # for vim-codefmt on C
 }
 
 # YouCompleteMe
@@ -357,7 +358,8 @@ let g:syntastic_check_on_wq = 0
 " copied from https://github.com/google/vim-codefmt
 augroup autoformat_settings
   autocmd FileType bzl AutoFormatBuffer buildifier
-  autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+  autocmd FileType c,cpp,proto AutoFormatBuffer clang-format
+  autocmd FileType javascript AutoFormatBuffer prettier
   autocmd FileType dart AutoFormatBuffer dartfmt
   autocmd FileType go AutoFormatBuffer gofmt
   autocmd FileType gn AutoFormatBuffer gn
@@ -368,8 +370,9 @@ augroup autoformat_settings
 augroup END
 " the glaive#Install() should go after the "call vundle#end()"
 call glaive#Install()
-" Optional: Enable codefmt's default mappings on the <Leader>= prefix.
+" Enable codefmt's default mappings on the <Leader>= prefix.
 Glaive codefmt plugin[mappings]
+Glaive codefmt prettier_options=\`['--single-quote', '--trailing-comma=all', '--arrow-parens=always', '--print-width=80', '--no-bracket-spacing', '--no-semi']\`
 
 
 " We need to do this to stop ft-sql from continually complaining with the error:
@@ -402,3 +405,5 @@ if !has('nvim') " checking *for* neovim, ! is not a *not* here
 endif
 EOF
 
+echo 'The following also need to be installed
+  yarn global add prettier # for vim-codefmt'
