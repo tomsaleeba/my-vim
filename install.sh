@@ -386,7 +386,13 @@ endif
 " uses ColorScheme defined at start of .vimrc
 match ExtraWhitespace /\s\+$/
 
-if !has('nvim') " checking *for* neovim, ! is not a *not* here
+if has('nvim')
+  " map Esc to exit terminal mode (:te)
+  tnoremap <Esc> <C-\><C-n>
+
+  " live substitute preview and highlighting
+  set inccommand=nosplit
+else
   " allow alt+<letter> keys to work in a terminal, for things like alt+j/k to move lines
   " thanks https://stackoverflow.com/a/10216459
   let c='a'
@@ -396,12 +402,6 @@ if !has('nvim') " checking *for* neovim, ! is not a *not* here
     let c = nr2char(1+char2nr(c))
   endw
   set timeout ttimeoutlen=50
-
-  " map Esc to exit terminal mode (:te)
-  tnoremap <Esc> <C-\><C-n>
-
-  " live substitute preview and highlighting
-  set inccommand=nosplit
 endif
 EOF
 
