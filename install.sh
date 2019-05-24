@@ -348,7 +348,9 @@ autocmd FileType vue syntax sync fromstart " run highlight from start
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " need to repeat the default map otherwise it won't get mapped
 nmap gcc <Plug>(caw:hatpos:toggle)
+xmap gcc <Plug>(caw:hatpos:toggle)
 nmap <leader><space> <Plug>(caw:hatpos:toggle)
+xmap <leader><space> <Plug>(caw:hatpos:toggle)
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
