@@ -2,10 +2,10 @@
 # idempotent install script for Tom's vim setup
 set -euo pipefail
 
-isSkipYCMBuild=0
+isQuickMode=0
 if [ ! -z "${1:-}" ]; then
-  echo '[INFO] YCM build will be skipped'
-  isSkipYCMBuild=1
+  echo '[INFO] Quick mode enabled'
+  isQuickMode=1
 fi
 
 bundleDir=$HOME/.vim/bundle
@@ -43,32 +43,35 @@ clone_or_pull () {
 
 cd $bundleDir
 
-# Install gvim. Even if you want to use vim in a terminal, this is good because you get the fully featured vim (with
-# clipboard integration)
-# TODO add flag to skip this
-echo '[INFO] installing/updating gvim'
-command -v apt-get > /dev/null 2>&1 && {
-  # debian/ubuntu
-  sudo apt-get -y install \
-    exuberant-ctags \
-    vim-gtk \
-    libpython2.7-dev \
-    g++ \
-    cmake
-}
-command -v pacman > /dev/null 2>&1 && {
-  # arch/manjaro
-  sudo pacman --noconfirm --needed -Sy \
-    ctags \
-    gvim \
-    gcc \
-    cmake
-    # neovim python-neovim \
-    # clang # for vim-codefmt on C
-}
+# Install gvim/neovim. Even if you want to use vim in a terminal, this is good
+# because you get the fully featured vim (with clipboard integration)
+if [ "$isQuickMode" == "1" ]; then
+  echo '[INFO] skipping gvim/neovim install or update'
+else
+  echo '[INFO] installing/updating gvim'
+  command -v apt-get > /dev/null 2>&1 && {
+    # debian/ubuntu
+    sudo apt-get -y install \
+      exuberant-ctags \
+      vim-gtk \
+      libpython2.7-dev \
+      g++ \
+      cmake
+  }
+  command -v pacman > /dev/null 2>&1 && {
+    # arch/manjaro
+    sudo pacman --noconfirm --needed -Sy \
+      ctags \
+      gvim \
+      gcc \
+      cmake
+      # neovim python-neovim \
+      # clang # for vim-codefmt on C
+  }
+fi
 
 # YouCompleteMe
-if [ "$isSkipYCMBuild" == "1" ]; then
+if [ "$isQuickMode" == "1" ]; then
   # if we pull fresh stuff but don't build it, things break. So just don't touch anything
   echo '[INFO] skipping YCM build'
 else
@@ -121,7 +124,8 @@ declare -a plugins=(
   "https://github.com/plasticboy/vim-markdown"
   "https://github.com/posva/vim-vue"
   "https://github.com/qpkorr/vim-bufkill" # :BD to kill buffer without saving
-  "https://github.com/scrooloose/nerdcommenter"
+  "https://github.com/tyru/caw.vim" # commenter that works with vue, where NERDcommenter doesn't
+    "https://github.com/Shougo/context_filetype.vim" # support for mutli-context files: vue, html
   "https://github.com/scrooloose/nerdtree"
     "https://github.com/jistr/vim-nerdtree-tabs" # common state for NerdTree on all tabs
   "https://github.com/scrooloose/syntastic"
@@ -154,7 +158,11 @@ installPowerline () {
   rm -fr fonts
   popd > /dev/null
 }
-installPowerline
+if [ "$isQuickMode" == "1" ]; then
+  echo '[INFO] skipping install/update of powerline fonts'
+else
+  installPowerline
+fi
 
 # Pathogen help tags generation (run this before writing vimrc as it doesn't like :set inccommand)
 echo '[INFO] running pathogen#helptags()'
@@ -332,6 +340,22 @@ set ts=2 sw=2 et
 " => vim-vue
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:vue_disable_pre_processors=1 " make the plugin responsive
+autocmd FileType vue syntax sync fromstart " run highlight from start
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => caw
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" need to repeat the default map otherwise it won't get mapped
+nmap gcc <Plug>(caw:hatpos:toggle)
+nmap <leader><space> <Plug>(caw:hatpos:toggle)
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => context_filetype.vim
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" needs to be run for context sensitive commenting to work, not sure why
+autocmd VimEnter * silent echo context_filetype#get()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
