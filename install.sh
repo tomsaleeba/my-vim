@@ -71,12 +71,13 @@ else
 fi
 
 # YouCompleteMe
+ycmRepo=https://github.com/Valloric/YouCompleteMe
 if [ "$isQuickMode" == "1" ]; then
   # if we pull fresh stuff but don't build it, things break. So just don't touch anything
   echo '[INFO] skipping YCM build'
 else
   echo '[INFO] processing YouCompleteMe'
-  clone_or_pull https://github.com/Valloric/YouCompleteMe
+  clone_or_pull $ycmRepo
   pushd YouCompleteMe > /dev/null
   git submodule update --init --recursive
   # TODO only run following if changes are present
@@ -88,14 +89,14 @@ fi
 
 # Install and compile procvim.vim
 echo '[INFO] processing vimproc'
-clone_or_pull https://github.com/Shougo/vimproc.vim
+vimprocRepo=https://github.com/Shougo/vimproc.vim
+clone_or_pull $vimprocRepo
 pushd vimproc.vim > /dev/null
 make
 popd > /dev/null
 
 # install plugins
 declare -a plugins=(
-  "https://github.com/Raimondi/delimitMate" # auto close quotes, parens, brackets, etc
   "https://github.com/SirVer/ultisnips" # snippet engine
     "https://github.com/honza/vim-snippets" # the snippets themselves
   "https://github.com/airblade/vim-gitgutter"
@@ -138,10 +139,28 @@ declare -a plugins=(
   "https://github.com/tpope/vim-surround"
   "https://github.com/tpope/vim-unimpaired"
   "https://github.com/yssl/QFEnter"
+  "https://github.com/alvan/vim-closetag"
   # theme:
   # Matching terminal theme available at: https://github.com/morhetz/gruvbox-contrib
   "https://github.com/morhetz/gruvbox"
 )
+
+echo '[INFO] checking for orphaned plugins (to delete)'
+for currDirPath in $bundleDir/*; do
+  currDir=`basename "$currDirPath"`
+  found=false
+  for currRepo in "${plugins[@]} $ycmRepo $vimprocRepo"; do
+    echo $currRepo | grep --fixed-strings --silent $currDir && {
+      found=true
+      break
+    }
+  done
+  eval $found || {
+    echo "Deleting $currDir"
+    rm -fr $bundleDir/$currDir
+  }
+done
+
 for curr in "${plugins[@]}"; do
   echo "[INFO] processing $curr"
   clone_or_pull "$curr" &
@@ -271,6 +290,7 @@ let g:tagbar_type_typescript = {
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 vmap Si S(i_<esc>f)
 au FileType mako vmap Si S"i\${ _(<esc>2f"a) }<esc>
+xmap S <Plug>VSurround " prefer this over the conflicting yankstack mapping
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -432,4 +452,6 @@ endif
 EOF
 
 echo 'The following also need to be installed
-  yarn global add prettier # for vim-codefmt'
+  yarn global add prettier     # for vim-codefmt (js)
+  yarn global add js-beautify  # for vim-codefmt (html)
+'
