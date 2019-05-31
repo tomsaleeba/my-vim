@@ -97,6 +97,7 @@ popd > /dev/null
 
 # install plugins
 declare -a plugins=(
+  "https://github.com/Raimondi/delimitMate"
   "https://github.com/SirVer/ultisnips" # snippet engine
     "https://github.com/honza/vim-snippets" # the snippets themselves
   "https://github.com/airblade/vim-gitgutter"
@@ -222,6 +223,13 @@ set cursorline
 " Set Vim working directory to the current location
 set autochdir
 
+" Python specific
+autocmd FileType python set tw=0  " let the linter handle this
+
+" JS specific
+autocmd FileType javascript set tw=0  " let the linter handle this
+
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Huge thanks to "Amir Salihefendic" : https://github.com/amix
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -232,6 +240,18 @@ set autochdir
 " use <C-y> to stop completion (dismiss popup)
 let g:ycm_autoclose_preview_window_after_insertion = 1
 map <leader>f :YcmCompleter FixIt<CR>
+
+
+""""""""""""""""""""""""""""""
+" => DelimitMate
+""""""""""""""""""""""""""""""
+au FileType python let b:delimitMate_nesting_quotes = ['"']
+au FileType markdown let b:delimitMate_nesting_quotes = ['\`']
+" don't close < because we have vim-closetag for that
+let delimitMate_matchpairs = "(:),[:],{:}"
+let delimitMate_expand_space = 1
+let delimitMate_expand_cr = 1
+let delimitMate_expand_inside_quotes = 1
 
 
 """"""""""""""""""""""""""""""
@@ -419,6 +439,8 @@ call glaive#Install()
 " Enable codefmt's default mappings on the <Leader>= prefix.
 Glaive codefmt plugin[mappings]
 Glaive codefmt prettier_options=\`['--single-quote', '--trailing-comma=all', '--arrow-parens=always', '--print-width=80', '--no-bracket-spacing', '--no-semi']\`
+" make sure your env has the following set:
+"   export jsbeautify_indent_size=2
 
 
 " We need to do this to stop ft-sql from continually complaining with the error:
