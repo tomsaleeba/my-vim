@@ -439,7 +439,12 @@ augroup END
 call glaive#Install()
 " Enable codefmt's default mappings on the <Leader>= prefix.
 Glaive codefmt plugin[mappings]
-Glaive codefmt prettier_options=\`['--single-quote', '--trailing-comma=all', '--arrow-parens=always', '--print-width=80', '--no-bracket-spacing', '--no-semi']\`
+
+" consider moving config for prettier to a file (that is only used when we call
+" the global prettier command) so we don't conflict with project specific
+" settings
+Glaive codefmt prettier_options=\`['--single-quote', '--trailing-comma=all', '--print-width=80', '--no-semi']\`
+
 " make sure your env has the following set:
 "   export jsbeautify_indent_size=2
 
