@@ -443,8 +443,7 @@ Glaive codefmt plugin[mappings]
 " consider moving config for prettier to a file (that is only used when we call
 " the global prettier command) so we don't conflict with project specific
 " settings
-Glaive codefmt prettier_options=\`['--single-quote', '--trailing-comma=all', '--print-width=80', '--no-semi']\`
-
+Glaive codefmt prettier_options=\`['--single-quote', '--trailing-comma=all', '--arrow-parens=avoid', '--print-width=80', '--no-semi']\`
 " make sure your env has the following set:
 "   export jsbeautify_indent_size=2
 
