@@ -339,6 +339,8 @@ autocmd FileType python set tw=0  " let the linter handle this
 " JS specific
 autocmd FileType javascript set tw=0  " let the linter handle this
 
+vmap <leader>y "+y
+
 """"""""""""""""""""""""""""""
 " => YouCompleteMe plugin
 """"""""""""""""""""""""""""""
