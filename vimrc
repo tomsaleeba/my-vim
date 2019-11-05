@@ -96,9 +96,6 @@ set foldcolumn=0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Enable syntax highlighting
-syntax enable
-
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
 
@@ -130,7 +127,6 @@ set tabstop=2
 
 " Linebreak on 500 characters
 set lbr
-set tw=500
 
 set ai "Auto indent
 set si "Smart indent
@@ -140,12 +136,6 @@ set wrap "Wrap lines
 """"""""""""""""""""""""""""""
 " => Visual mode related
 """"""""""""""""""""""""""""""
-" Visual mode pressing * or # searches for the current selection
-" Super useful! From an idea by Michael Naumann
-vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
-vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
-
-
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
 
@@ -173,19 +163,9 @@ endtry
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 
-""""""""""""""""""""""""""""""
-" => Status line
-""""""""""""""""""""""""""""""
-" Always show the status line
-set laststatus=2
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Remap VIM 0 to first non-blank character
-map 0 ^
-
 " Move a line of text using ALT+[jk] or Command+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
 nmap <M-k> mz:m-2<cr>`z
@@ -221,31 +201,6 @@ noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Toggle paste mode on and off
 map <leader>pp :setlocal paste!<cr>
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Helper functions
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! CmdLine(str)
-    call feedkeys(":" . a:str)
-endfunction
-
-function! VisualSelection(direction, extra_filter) range
-    let l:saved_reg = @"
-    execute "normal! vgvy"
-
-    let l:pattern = escape(@", "\\/.*'$^~[]")
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
-
-    if a:direction == 'gv'
-        call CmdLine("Ack '" . l:pattern . "' " )
-    elseif a:direction == 'replace'
-        call CmdLine("%s" . '/'. l:pattern . '/')
-    endif
-
-    let @/ = l:pattern
-    let @" = l:saved_reg
-endfunction
 " end of amix/basic.vim
 
 " Disable scrollbars (real hackers don't use scrollbars for navigation!)
@@ -292,31 +247,12 @@ cnoremap <C-N> <Down>
 " => Omni complete functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-
-" When you press gv you Ack after the selected text
-vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
-
-" Do :help cope if you are unsure what cope is. It's super useful!
-"
-" When you search with Ack, display your results in cope by doing:
-"   <leader>cc
-"
-" To go to the next search result do:
-"   <leader>n
-"
-" To go to the previous search results do:
-"   <leader>p
-"
-map <leader>cc :botright cope<cr>
-map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
-map <leader>n :cn<cr>
-map <leader>p :cp<cr>
 " end of amix/extended.vim
 
 execute pathogen#infect()
 syntax on
 filetype plugin indent on
-set tw=79
+set tw=80
 set encoding=utf-8
 
 " thanks https://stackoverflow.com/a/6726904/1410035 for split settings
@@ -339,7 +275,36 @@ autocmd FileType python set tw=0  " let the linter handle this
 " JS specific
 autocmd FileType javascript set tw=0  " let the linter handle this
 
+map <leader>p "+p
 vmap <leader>y "+y
+
+nmap j gj
+nmap k gk
+
+if has('gui_running')
+  set guifont=Hack\ 12 " comes from https://github.com/powerline/fonts/tree/master/Hack
+endif
+
+" uses ColorScheme defined at start of .vimrc
+match ExtraWhitespace /\s\+$/
+
+if has('nvim')
+  " map Esc to exit terminal mode (:te)
+  tnoremap <Esc> <C-\><C-n>
+
+  " live substitute preview and highlighting
+  set inccommand=nosplit
+else
+  " allow alt+<letter> keys to work in a terminal, for things like alt+j/k to move lines
+  " thanks https://stackoverflow.com/a/10216459
+  let c='a'
+  while c <= 'z'
+    exec "set <A-".c.">=\e".c
+    exec "imap \e".c." <A-".c.">"
+    let c = nr2char(1+char2nr(c))
+  endw
+  set timeout ttimeoutlen=50
+endif
 
 """"""""""""""""""""""""""""""
 " => YouCompleteMe plugin
@@ -558,28 +523,3 @@ Glaive codefmt prettier_options=`['--single-quote', '--trailing-comma=all', '--a
 " We need to do this to stop ft-sql from continually complaining with the error:
 " SQLComplete: the dbext plugin must be loaded for dynamic sql completion
 let g:omni_sql_no_default_maps = 1
-
-if has('gui_running')
-  set guifont=Hack\ 12 " comes from https://github.com/powerline/fonts/tree/master/Hack
-endif
-
-" uses ColorScheme defined at start of .vimrc
-match ExtraWhitespace /\s\+$/
-
-if has('nvim')
-  " map Esc to exit terminal mode (:te)
-  tnoremap <Esc> <C-\><C-n>
-
-  " live substitute preview and highlighting
-  set inccommand=nosplit
-else
-  " allow alt+<letter> keys to work in a terminal, for things like alt+j/k to move lines
-  " thanks https://stackoverflow.com/a/10216459
-  let c='a'
-  while c <= 'z'
-    exec "set <A-".c.">=\e".c
-    exec "imap \e".c." <A-".c.">"
-    let c = nr2char(1+char2nr(c))
-  endw
-  set timeout ttimeoutlen=50
-endif
