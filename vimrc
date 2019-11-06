@@ -390,6 +390,11 @@ xmap S <Plug>VSurround " prefer this over the conflicting yankstack mapping
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Always show statusline
 set laststatus=2
+let g:airline#extensions#wordcount#enabled = 0
+let g:airline#extensions#branch#enabled = 0
+let g:airline#extensions#tagbar#enabled = 0
+" remove B (version control) section
+let g:airline#extensions#default#layout = [  [ 'a', 'c' ],  [ 'x', 'y', 'z', 'error', 'warning' ]  ]
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
