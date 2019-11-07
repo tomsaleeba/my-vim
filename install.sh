@@ -93,26 +93,22 @@ declare -a plugins=(
     "https://github.com/honza/vim-snippets" # the snippets themselves
   "https://github.com/airblade/vim-gitgutter"
   "https://github.com/bling/vim-airline"
-  "https://github.com/chaoren/vim-wordmotion"
+  "https://github.com/chaoren/vim-wordmotion" # camelcase support
   "https://github.com/easymotion/vim-easymotion"
   "https://github.com/ekalinin/Dockerfile.vim"
   "https://github.com/elzr/vim-json"
   "https://github.com/gabesoft/vim-ags" # silver searcher integrations, :Ags
     "https://github.com/dbakker/vim-projectroot" # run :Ags in project root
-  "https://github.com/godlygeek/tabular" # <leader>a (mapped below) to autoformat markdown tables and JS dicts
   "https://github.com/google/vim-codefmt" # run code formatters like yapf
     "https://github.com/google/vim-glaive"
     "https://github.com/google/vim-maktaba"
-  "https://github.com/groenewege/vim-less"
   "https://github.com/kien/ctrlp.vim"
   "https://github.com/leafgarland/typescript-vim" # syntax file and other settings for TS, no autocomplete
   "https://github.com/machakann/vim-highlightedyank"
   "https://github.com/majutsushi/tagbar" # :TagbarToggle to show file overview
   "https://github.com/maxbrunsfeld/vim-yankstack" # <M-p> to paste/cycle back, <M-P> to cycle forward
-  "https://github.com/mbbill/undotree"
   "https://github.com/michaeljsmith/vim-indent-object" # select text objects by indent
   "https://github.com/nathanaelkane/vim-indent-guides" # visual indent level, <leader>ig to toggle
-  "https://github.com/othree/html5.vim"
   "https://github.com/pangloss/vim-javascript"
   "https://github.com/plasticboy/vim-markdown"
   "https://github.com/posva/vim-vue"
@@ -125,11 +121,9 @@ declare -a plugins=(
   "https://github.com/stephpy/vim-yaml"
   "https://github.com/terryma/vim-expand-region" # use + to expand or _ to reduce selection
   "https://github.com/tomtom/tlib_vim"
-  "https://github.com/tpope/vim-fugitive"
-  "https://github.com/tpope/vim-haml"
   "https://github.com/tpope/vim-repeat"
   "https://github.com/tpope/vim-surround"
-  "https://github.com/tpope/vim-unimpaired"
+  "https://github.com/tpope/vim-unimpaired" # [ and ] prefixed commands
   "https://github.com/yssl/QFEnter"
   "https://github.com/alvan/vim-closetag"
   # theme:
