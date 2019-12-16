@@ -70,6 +70,7 @@ else
   echo '[INFO] processing YouCompleteMe'
   clone_or_pull $ycmRepo
   pushd YouCompleteMe > /dev/null
+   git submodule sync --recursive
   git submodule update --init --recursive
   # TODO only run following if changes are present
   # maybe by comparing `find . -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" "` before and after
