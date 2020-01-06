@@ -53,10 +53,10 @@ else
     # arch/manjaro
     sudo pacman --noconfirm --needed -Sy \
       ctags \
-      gvim \
       gcc \
-      cmake
-      # neovim python-neovim \
+      cmake \
+      neovim \
+      python-neovim \
       # clang # for vim-codefmt on C
   }
 fi
