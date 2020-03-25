@@ -114,17 +114,18 @@ declare -a plugins=(
   "https://github.com/plasticboy/vim-markdown"
   "https://github.com/posva/vim-vue"
   "https://github.com/qpkorr/vim-bufkill" # :BD to kill buffer without saving
-  "https://github.com/tyru/caw.vim" # commenter that works with vue, where NERDcommenter doesn't
-    "https://github.com/Shougo/context_filetype.vim" # support for mutli-context files: vue, html
   "https://github.com/scrooloose/nerdtree"
     "https://github.com/jistr/vim-nerdtree-tabs" # common state for NerdTree on all tabs
   "https://github.com/scrooloose/syntastic"
   "https://github.com/stephpy/vim-yaml"
   "https://github.com/terryma/vim-expand-region" # use + to expand or _ to reduce selection
+  "https://github.com/thiagoalessio/rainbow_levels.vim.git"
   "https://github.com/tomtom/tlib_vim"
   "https://github.com/tpope/vim-repeat"
   "https://github.com/tpope/vim-surround"
   "https://github.com/tpope/vim-unimpaired" # [ and ] prefixed commands
+  "https://github.com/tyru/caw.vim" # commenter that works with vue, where NERDcommenter doesn't
+    "https://github.com/Shougo/context_filetype.vim" # support for mutli-context files: vue, html
   "https://github.com/yssl/QFEnter"
   "https://github.com/alvan/vim-closetag"
   # theme:
