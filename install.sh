@@ -70,12 +70,11 @@ else
   echo '[INFO] processing YouCompleteMe'
   clone_or_pull $ycmRepo
   pushd YouCompleteMe > /dev/null
-   git submodule sync --recursive
+  git submodule sync --recursive
   git submodule update --init --recursive
   # TODO only run following if changes are present
   # maybe by comparing `find . -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" "` before and after
   python install.py --java-completer
-  # TODO make sure typescript is installed for JS support: npm install -g typescript
   popd > /dev/null
 fi
 
@@ -104,7 +103,6 @@ declare -a plugins=(
     "https://github.com/google/vim-glaive"
     "https://github.com/google/vim-maktaba"
   "https://github.com/kien/ctrlp.vim"
-  "https://github.com/leafgarland/typescript-vim" # syntax file and other settings for TS, no autocomplete
   "https://github.com/machakann/vim-highlightedyank"
   "https://github.com/majutsushi/tagbar" # :TagbarToggle to show file overview
   "https://github.com/maxbrunsfeld/vim-yankstack" # <M-p> to paste/cycle back, <M-P> to cycle forward
