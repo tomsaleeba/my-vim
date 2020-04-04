@@ -1,6 +1,9 @@
 #!/bin/bash
 # idempotent install script for Tom's vim setup
 set -euo pipefail
+[ "${DEBUG:-0}" == "1" ] && set -x
+thisDir=$(cd `dirname "$0"` && pwd)
+bundleDir=$thisDir/dot-vim/bundle
 
 isQuickMode=0
 if [ ! -z "${1:-}" ]; then
@@ -8,31 +11,24 @@ if [ ! -z "${1:-}" ]; then
   isQuickMode=1
 fi
 
-bundleDir=$HOME/.vim/bundle
-# TODO add $HOME/.config/nvim/init.vim for neovim
-
-cd $HOME
-echo '[INFO] creating required dirs'
-mkdir -p \
-  $bundleDir \
-  $HOME/.vim/autoload \
-  $HOME/.vim/temp_dirs
-curl -LSso $HOME/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-
-clone_or_pull () {
-  # lets us make this script idempotent
-  repoUrl=$1
-  dirName=`basename $repoUrl`
-  if [ ! -d $dirName ]; then
-    git clone --depth 1 $repoUrl $dirName
+function doSymlink {
+  linkName=$1
+  targetPath=$2
+  if [ -L $linkName ]; then
+    echo "[INFO] $linkName symlink exists, recreating it"
+    rm $linkName
+    ln -s $thisDir/$targetPath $linkName
+  elif [ -e $linkName ]; then
+    echo "[ERROR] $linkName already exists but is not a symlink, refusing to touch it"
+    exit 1
   else
-    pushd $dirName > /dev/null
-    git pull
-    popd > /dev/null
+    echo "[INFO] $linkName symlink does not exist, creating it"
+    ln -s $thisDir/$targetPath $linkName
   fi
 }
 
-cd $bundleDir
+doSymlink ~/.vimrc vimrc
+doSymlink ~/.vim dot-vim
 
 # Install gvim/neovim. Even if you want to use vim in a terminal, this is good
 # because you get the fully featured vim (with clipboard integration)
@@ -62,14 +58,12 @@ else
 fi
 
 # YouCompleteMe
-ycmRepo=https://github.com/Valloric/YouCompleteMe
 if [ "$isQuickMode" == "1" ]; then
   # if we pull fresh stuff but don't build it, things break. So just don't touch anything
   echo '[INFO] skipping YCM build'
 else
   echo '[INFO] processing YouCompleteMe'
-  clone_or_pull $ycmRepo
-  pushd YouCompleteMe > /dev/null
+  pushd $bundleDir/YouCompleteMe > /dev/null
   git submodule sync --recursive
   git submodule update --init --recursive
   # TODO only run following if changes are present
@@ -78,80 +72,19 @@ else
   popd > /dev/null
 fi
 
-# Install and compile procvim.vim
+# compile procvim.vim
 echo '[INFO] processing vimproc'
-vimprocRepo=https://github.com/Shougo/vimproc.vim
-clone_or_pull $vimprocRepo
-pushd vimproc.vim > /dev/null
+pushd $bundleDir/vimproc.vim > /dev/null
 make
 popd > /dev/null
 
-# install plugins
-declare -a plugins=(
-  "https://github.com/Raimondi/delimitMate"
-  "https://github.com/SirVer/ultisnips" # snippet engine
-    "https://github.com/honza/vim-snippets" # the snippets themselves
-  "https://github.com/airblade/vim-gitgutter"
-  "https://github.com/bling/vim-airline"
-  "https://github.com/chaoren/vim-wordmotion" # camelcase support
-  "https://github.com/easymotion/vim-easymotion"
-  "https://github.com/ekalinin/Dockerfile.vim"
-  "https://github.com/elzr/vim-json"
-  "https://github.com/gabesoft/vim-ags" # silver searcher integrations, :Ags
-    "https://github.com/dbakker/vim-projectroot" # run :Ags in project root
-  "https://github.com/google/vim-codefmt" # run code formatters like yapf
-    "https://github.com/google/vim-glaive"
-    "https://github.com/google/vim-maktaba"
-  "https://github.com/kien/ctrlp.vim"
-  "https://github.com/machakann/vim-highlightedyank"
-  "https://github.com/majutsushi/tagbar" # :TagbarToggle to show file overview
-  "https://github.com/maxbrunsfeld/vim-yankstack" # <M-p> to paste/cycle back, <M-P> to cycle forward
-  "https://github.com/michaeljsmith/vim-indent-object" # select text objects by indent
-  "https://github.com/nathanaelkane/vim-indent-guides" # visual indent level, <leader>ig to toggle
-  "https://github.com/pangloss/vim-javascript"
-  "https://github.com/plasticboy/vim-markdown"
-  "https://github.com/posva/vim-vue"
-  "https://github.com/qpkorr/vim-bufkill" # :BD to kill buffer without saving
-  "https://github.com/scrooloose/nerdtree"
-    "https://github.com/jistr/vim-nerdtree-tabs" # common state for NerdTree on all tabs
-  "https://github.com/scrooloose/syntastic"
-  "https://github.com/stephpy/vim-yaml"
-  "https://github.com/terryma/vim-expand-region" # use + to expand or _ to reduce selection
-  "https://github.com/thiagoalessio/rainbow_levels.vim.git"
-  "https://github.com/tomtom/tlib_vim"
-  "https://github.com/tpope/vim-repeat"
-  "https://github.com/tpope/vim-surround"
-  "https://github.com/tpope/vim-unimpaired" # [ and ] prefixed commands
-  "https://github.com/tyru/caw.vim" # commenter that works with vue, where NERDcommenter doesn't
-    "https://github.com/Shougo/context_filetype.vim" # support for mutli-context files: vue, html
-  "https://github.com/yssl/QFEnter"
-  "https://github.com/alvan/vim-closetag"
-  # theme:
-  # Matching terminal theme available at: https://github.com/morhetz/gruvbox-contrib
-  "https://github.com/morhetz/gruvbox"
-)
-
-echo '[INFO] checking for orphaned plugins (to delete)'
-for currDirPath in $bundleDir/*; do
-  currDir=`basename "$currDirPath"`
-  found=false
-  for currRepo in "${plugins[@]} $ycmRepo $vimprocRepo"; do
-    echo $currRepo | grep --fixed-strings --silent $currDir && {
-      found=true
-      break
-    }
-  done
-  eval $found || {
-    echo "Deleting $currDir"
-    rm -fr $bundleDir/$currDir
-  }
+echo "[INFO] updating plugins"
+for curr in $(cd $bundleDir && ls); do
+  echo "Updating $curr"
+  cd $bundleDir/$curr
+  git pull &
 done
-
-for curr in "${plugins[@]}"; do
-  echo "[INFO] processing $curr"
-  clone_or_pull "$curr" &
-done
-wait # for parallel clone_or_pulls to finish
+wait # for parallel updates
 
 installPowerline () {
   pushd /tmp > /dev/null
@@ -163,6 +96,7 @@ installPowerline () {
   rm -fr fonts
   popd > /dev/null
 }
+
 if [ "$isQuickMode" == "1" ]; then
   echo '[INFO] skipping install/update of powerline fonts'
 else

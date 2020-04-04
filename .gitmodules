@@ -1,0 +1,126 @@
+[submodule "dot-vim/pathogen"]
+	path = dot-vim/pathogen
+	url = https://github.com/tpope/vim-pathogen.git
+[submodule "dot-vim/bundle/vim-indent-object"]
+	path = dot-vim/bundle/vim-indent-object
+	url = https://github.com/michaeljsmith/vim-indent-object
+[submodule "dot-vim/bundle/vim-yankstack"]
+	path = dot-vim/bundle/vim-yankstack
+	url = https://github.com/maxbrunsfeld/vim-yankstack
+[submodule "dot-vim/bundle/caw.vim"]
+	path = dot-vim/bundle/caw.vim
+	url = https://github.com/tyru/caw.vim
+[submodule "dot-vim/bundle/syntastic"]
+	path = dot-vim/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic
+[submodule "dot-vim/bundle/vim-highlightedyank"]
+	path = dot-vim/bundle/vim-highlightedyank
+	url = https://github.com/machakann/vim-highlightedyank
+[submodule "dot-vim/bundle/vim-repeat"]
+	path = dot-vim/bundle/vim-repeat
+	url = https://github.com/tpope/vim-repeat
+[submodule "dot-vim/bundle/QFEnter"]
+	path = dot-vim/bundle/QFEnter
+	url = https://github.com/yssl/QFEnter
+[submodule "dot-vim/bundle/vim-indent-guides"]
+	path = dot-vim/bundle/vim-indent-guides
+	url = https://github.com/nathanaelkane/vim-indent-guides
+[submodule "dot-vim/bundle/tagbar"]
+	path = dot-vim/bundle/tagbar
+	url = https://github.com/majutsushi/tagbar
+[submodule "dot-vim/bundle/vim-javascript"]
+	path = dot-vim/bundle/vim-javascript
+	url = https://github.com/pangloss/vim-javascript
+[submodule "dot-vim/bundle/vim-yaml"]
+	path = dot-vim/bundle/vim-yaml
+	url = https://github.com/stephpy/vim-yaml
+[submodule "dot-vim/bundle/vim-surround"]
+	path = dot-vim/bundle/vim-surround
+	url = https://github.com/tpope/vim-surround
+[submodule "dot-vim/bundle/nerdtree"]
+	path = dot-vim/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree
+[submodule "dot-vim/bundle/vim-wordmotion"]
+	path = dot-vim/bundle/vim-wordmotion
+	url = https://github.com/chaoren/vim-wordmotion
+[submodule "dot-vim/bundle/Dockerfile.vim"]
+	path = dot-vim/bundle/Dockerfile.vim
+	url = https://github.com/ekalinin/Dockerfile.vim
+[submodule "dot-vim/bundle/delimitMate"]
+	path = dot-vim/bundle/delimitMate
+	url = https://github.com/Raimondi/delimitMate
+[submodule "dot-vim/bundle/gruvbox"]
+	path = dot-vim/bundle/gruvbox
+	url = https://github.com/morhetz/gruvbox
+[submodule "dot-vim/bundle/ctrlp.vim"]
+	path = dot-vim/bundle/ctrlp.vim
+	url = https://github.com/kien/ctrlp.vim
+[submodule "dot-vim/bundle/vim-closetag"]
+	path = dot-vim/bundle/vim-closetag
+	url = https://github.com/alvan/vim-closetag
+[submodule "dot-vim/bundle/vim-markdown"]
+	path = dot-vim/bundle/vim-markdown
+	url = https://github.com/plasticboy/vim-markdown
+[submodule "dot-vim/bundle/vim-vue"]
+	path = dot-vim/bundle/vim-vue
+	url = https://github.com/posva/vim-vue
+[submodule "dot-vim/bundle/vim-json"]
+	path = dot-vim/bundle/vim-json
+	url = https://github.com/elzr/vim-json
+[submodule "dot-vim/bundle/vim-glaive"]
+	path = dot-vim/bundle/vim-glaive
+	url = https://github.com/google/vim-glaive
+[submodule "dot-vim/bundle/context_filetype.vim"]
+	path = dot-vim/bundle/context_filetype.vim
+	url = https://github.com/Shougo/context_filetype.vim
+[submodule "dot-vim/bundle/vim-bufkill"]
+	path = dot-vim/bundle/vim-bufkill
+	url = https://github.com/qpkorr/vim-bufkill
+[submodule "dot-vim/bundle/vim-unimpaired"]
+	path = dot-vim/bundle/vim-unimpaired
+	url = https://github.com/tpope/vim-unimpaired
+[submodule "dot-vim/bundle/vim-gitgutter"]
+	path = dot-vim/bundle/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter
+[submodule "dot-vim/bundle/ultisnips"]
+	path = dot-vim/bundle/ultisnips
+	url = https://github.com/SirVer/ultisnips
+[submodule "dot-vim/bundle/vim-airline"]
+	path = dot-vim/bundle/vim-airline
+	url = https://github.com/bling/vim-airline
+[submodule "dot-vim/bundle/vim-easymotion"]
+	path = dot-vim/bundle/vim-easymotion
+	url = https://github.com/easymotion/vim-easymotion
+[submodule "dot-vim/bundle/vim-snippets"]
+	path = dot-vim/bundle/vim-snippets
+	url = https://github.com/honza/vim-snippets
+[submodule "dot-vim/bundle/vim-projectroot"]
+	path = dot-vim/bundle/vim-projectroot
+	url = https://github.com/dbakker/vim-projectroot
+[submodule "dot-vim/bundle/vim-expand-region"]
+	path = dot-vim/bundle/vim-expand-region
+	url = https://github.com/terryma/vim-expand-region
+[submodule "dot-vim/bundle/YouCompleteMe"]
+	path = dot-vim/bundle/YouCompleteMe
+	url = https://github.com/Valloric/YouCompleteMe
+[submodule "dot-vim/bundle/tlib_vim"]
+	path = dot-vim/bundle/tlib_vim
+	url = https://github.com/tomtom/tlib_vim
+[submodule "dot-vim/bundle/vimproc.vim"]
+	path = dot-vim/bundle/vimproc.vim
+	url = https://github.com/Shougo/vimproc.vim
+[submodule "dot-vim/bundle/vim-codefmt"]
+	path = dot-vim/bundle/vim-codefmt
+	url = https://github.com/google/vim-codefmt
+[submodule "dot-vim/bundle/rainbow_levels.vim.git"]
+	path = dot-vim/bundle/rainbow_levels.vim.git
+	url = https://github.com/thiagoalessio/rainbow_levels.vim.git
+[submodule "dot-vim/bundle/vim-maktaba"]
+	path = dot-vim/bundle/vim-maktaba
+	url = https://github.com/google/vim-maktaba
+[submodule "dot-vim/bundle/vim-ags"]
+	path = dot-vim/bundle/vim-ags
+	url = https://github.com/gabesoft/vim-ags
+[submodule "dot-vim/bundle/vim-nerdtree-tabs"]
+	path = dot-vim/bundle/vim-nerdtree-tabs
+	url = https://github.com/jistr/vim-nerdtree-tabs

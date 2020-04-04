@@ -1,1 +1,5 @@
 - get auto tag closing working in HTML in a .vue file
+
+- make all plugins git submodules
+- clone pathogen, make symlink
+https://github.com/tpope/vim-pathogen
