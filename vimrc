@@ -16,7 +16,7 @@ set autoread
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
-let mapleader = ","
+let mapleader = "\<space>"
 
 " Fast saving
 nmap <leader>w :w!<cr>
@@ -481,8 +481,8 @@ autocmd FileType vue syntax sync fromstart " run highlight from start
 " need to repeat the default map otherwise it won't get mapped
 nmap gcc <Plug>(caw:hatpos:toggle)
 xmap gcc <Plug>(caw:hatpos:toggle)
-nmap <leader><space> <Plug>(caw:hatpos:toggle)
-xmap <leader><space> <Plug>(caw:hatpos:toggle)
+nmap <leader>/ <Plug>(caw:hatpos:toggle)
+xmap <leader>/ <Plug>(caw:hatpos:toggle)
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

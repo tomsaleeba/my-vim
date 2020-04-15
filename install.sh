@@ -5,6 +5,11 @@ set -euo pipefail
 thisDir=$(cd `dirname "$0"` && pwd)
 bundleDir=$thisDir/dot-vim/bundle
 
+cd $thisDir
+# FIXME not sure if this will steamroll changes
+git submodule init
+git submodule update
+
 isQuickMode=0
 if [ ! -z "${1:-}" ]; then
   echo '[INFO] Quick mode enabled'
@@ -78,22 +83,15 @@ pushd $bundleDir/vimproc.vim > /dev/null
 make
 popd > /dev/null
 
-echo "[INFO] updating plugins"
-for curr in $(cd $bundleDir && ls); do
-  echo "Updating $curr"
-  cd $bundleDir/$curr
-  git pull &
-done
-wait # for parallel updates
-
 installPowerline () {
   pushd /tmp > /dev/null
   echo '[INFO] updating powerline fonts (fresh clone every time)'
-  git clone https://github.com/powerline/fonts.git --depth=1
-  cd fonts
+  fontsDir=fonts
+  git clone https://github.com/powerline/fonts.git $fontsDir --depth=1
+  cd $fontsDir
   ./install.sh
   cd ..
-  rm -fr fonts
+  rm -fr $fontsDir
   popd > /dev/null
 }
 
