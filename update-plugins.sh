@@ -16,7 +16,7 @@ for curr in $(cd $bundleDir && ls); do
   [ $curr = "YouCompleteMe" ] && continue
   echo "Updating $curr"
   cd $bundleDir/$curr
-  git pull &
+  bash -c 'git clean -fd && git checkout master && git pull' & # FIXME might need to checkout main instead
 done
 wait # for parallel updates
 
