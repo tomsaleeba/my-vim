@@ -73,7 +73,8 @@ else
   git submodule update --init --recursive
   # TODO only run following if changes are present
   # maybe by comparing `find . -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" "` before and after
-  python install.py --java-completer
+  # enableJava="--java-completer" # disabled
+  python install.py ${enableJava:-}
   popd > /dev/null
 fi
 
