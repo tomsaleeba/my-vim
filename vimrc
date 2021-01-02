@@ -521,14 +521,10 @@ let g:syntastic_check_on_wq = 0
 " ensure you 'pip install --user yapf'
 " copied from https://github.com/google/vim-codefmt
 augroup autoformat_settings
-  autocmd FileType bzl AutoFormatBuffer buildifier
-  autocmd FileType c,cpp,proto AutoFormatBuffer clang-format
-  autocmd FileType javascript AutoFormatBuffer prettier
-  autocmd FileType dart AutoFormatBuffer dartfmt
+  " autocmd FileType c,cpp,proto AutoFormatBuffer clang-format
   autocmd FileType go AutoFormatBuffer gofmt
-  autocmd FileType gn AutoFormatBuffer gn
   autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
-  autocmd FileType vue AutoFormatBuffer prettier
+  autocmd FileType javascript,vue AutoFormatBuffer prettier
   autocmd FileType java AutoFormatBuffer google-java-format
   autocmd FileType python AutoFormatBuffer yapf
   " Alternative: autocmd FileType python AutoFormatBuffer autopep8
