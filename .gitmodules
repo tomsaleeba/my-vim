@@ -100,15 +100,9 @@
 [submodule "dot-vim/bundle/vim-expand-region"]
 	path = dot-vim/bundle/vim-expand-region
 	url = https://github.com/terryma/vim-expand-region
-[submodule "dot-vim/bundle/YouCompleteMe"]
-	path = dot-vim/bundle/YouCompleteMe
-	url = https://github.com/Valloric/YouCompleteMe
 [submodule "dot-vim/bundle/tlib_vim"]
 	path = dot-vim/bundle/tlib_vim
 	url = https://github.com/tomtom/tlib_vim
-[submodule "dot-vim/bundle/vimproc.vim"]
-	path = dot-vim/bundle/vimproc.vim
-	url = https://github.com/Shougo/vimproc.vim
 [submodule "dot-vim/bundle/vim-codefmt"]
 	path = dot-vim/bundle/vim-codefmt
 	url = https://github.com/google/vim-codefmt

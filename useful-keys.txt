@@ -2,6 +2,8 @@
 While in insert mode: <C-x><C-o>, then <C-n> or <C-p> for up/down and <C-e> to
 accept.
 
+Or just <C-n> will complete strings from the open buffers.
+
 
 # reload vimrc
 :source ~/.vimrc
