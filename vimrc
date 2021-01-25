@@ -369,7 +369,7 @@ let g:ctrlp_map = '<C-f>'
 map <C-b> :CtrlPBuffer<CR>
 
 let g:ctrlp_max_height = 20
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|lcov-report)|(\.(swp|ico|git|svn|venv|DS_Store|pytest_cache|nuxt))$'
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|lcov-report|build)|(\.(swp|ico|git|svn|venv|DS_Store|pytest_cache|nuxt|cache|yarn))$'
 let g:ctrlp_show_hidden = 1
 
 
