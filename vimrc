@@ -367,6 +367,7 @@ let g:ctrlp_working_path_mode = 'ra'
 
 let g:ctrlp_map = '<C-f>'
 map <C-b> :CtrlPBuffer<CR>
+map <A-f> :CtrlPCurWD<CR>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|lcov-report|build)|(\.(swp|ico|git|svn|venv|DS_Store|pytest_cache|nuxt|cache|yarn))$'
