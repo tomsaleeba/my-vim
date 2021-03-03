@@ -118,3 +118,6 @@
 [submodule "dot-vim/bundle/vim-nerdtree-tabs"]
 	path = dot-vim/bundle/vim-nerdtree-tabs
 	url = https://github.com/jistr/vim-nerdtree-tabs
+[submodule "dot-vim/bundle/vim-jsx-pretty"]
+	path = dot-vim/bundle/vim-jsx-pretty
+	url = https://github.com/MaxMEllon/vim-jsx-pretty.git
