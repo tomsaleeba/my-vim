@@ -220,7 +220,7 @@ function! VisualSelection(direction, extra_filter) range
     let l:pattern = substitute(l:pattern, "\n$", "", "")
 
     if a:direction == 'gv'
-        call CmdLine("ProjectRootExe Ags \"" . l:pattern . "\" " )
+        call CmdLine("ProjectRootExe CtrlSF \"" . l:pattern . "\" " )
     elseif a:direction == 'replace'
         call CmdLine("%s" . '/'. l:pattern . '/')
     endif
@@ -494,10 +494,13 @@ autocmd VimEnter * silent echo context_filetype#get()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => vim-ags
+" => ctrlsf.vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>g :ProjectRootExe Ags<space>
-let g:ags_agcontext = 0
+map <leader>g :ProjectRootExe CtrlSF -C 1<space>
+let g:ctrlsf_auto_focus = {
+    \ "at": "done",
+    \ "duration_less_than": 1000
+    \ }
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
