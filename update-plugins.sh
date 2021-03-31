@@ -13,33 +13,11 @@ fi
 
 echo "[INFO] updating plugins"
 for curr in $(cd $bundleDir && ls); do
-  [ $curr = "YouCompleteMe" ] && continue
   echo "Updating $curr"
   cd $bundleDir/$curr
   bash -c 'git clean -fd && git checkout master && git pull' & # FIXME might need to checkout main instead
 done
 wait # for parallel updates
-
-# YouCompleteMe
-if [ "$isQuickMode" == "1" ]; then
-  # if we pull fresh stuff but don't build it, things break. So just don't touch anything
-  echo '[INFO] skipping YCM build'
-else
-  echo '[INFO] processing YouCompleteMe'
-  pushd $bundleDir/YouCompleteMe > /dev/null
-  git submodule sync --recursive
-  git submodule update --init --recursive
-  # TODO only run following if changes are present
-  # maybe by comparing `find . -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" "` before and after
-  python install.py --java-completer
-  popd > /dev/null
-fi
-
-# compile procvim.vim
-echo '[INFO] processing vimproc'
-pushd $bundleDir/vimproc.vim > /dev/null
-make
-popd > /dev/null
 
 installPowerline () {
   pushd /tmp > /dev/null
