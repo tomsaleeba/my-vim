@@ -121,9 +121,11 @@ set expandtab
 " Be smart when using tabs ;)
 set smarttab
 
-" 1 tab == 2 spaces
-set shiftwidth=2
-set tabstop=2
+" 1 tab == N spaces
+" FIXME create something smarter than let's configure setting per repo
+" https://stackoverflow.com/questions/1889602
+set shiftwidth=4
+set tabstop=4
 
 " Linebreak on 500 characters
 set lbr
@@ -192,7 +194,7 @@ fun! CleanExtraSpaces()
 endfun
 
 if has("autocmd")
-    autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
+    " autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
 endif
 
 
@@ -340,11 +342,9 @@ else
 endif
 
 """"""""""""""""""""""""""""""
-" => YouCompleteMe plugin
+" => Deoplete
 """"""""""""""""""""""""""""""
-" use <C-y> to stop completion (dismiss popup)
-let g:ycm_autoclose_preview_window_after_insertion = 1
-map <leader>f :YcmCompleter FixIt<CR>
+let g:deoplete#enable_at_startup = 1
 
 
 """"""""""""""""""""""""""""""
@@ -455,7 +455,6 @@ let g:qfenter_keymap.topen = ['<C-t>']
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
-set ts=2 sw=2 et
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -527,8 +526,8 @@ let g:syntastic_check_on_wq = 0
 augroup autoformat_settings
   " autocmd FileType c,cpp,proto AutoFormatBuffer clang-format
   autocmd FileType go AutoFormatBuffer gofmt
-  autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
-  autocmd FileType javascript,vue AutoFormatBuffer prettier
+  " autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+  " autocmd FileType javascript,vue AutoFormatBuffer prettier
   autocmd FileType java AutoFormatBuffer google-java-format
   autocmd FileType python AutoFormatBuffer yapf
   " Alternative: autocmd FileType python AutoFormatBuffer autopep8

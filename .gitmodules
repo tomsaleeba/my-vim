@@ -121,3 +121,6 @@
 [submodule "dot-vim/bundle/ctrlsf.vim"]
 	path = dot-vim/bundle/ctrlsf.vim
 	url = https://github.com/dyng/ctrlsf.vim
+[submodule "dot-vim/bundle/deoplete.nvim"]
+	path = dot-vim/bundle/deoplete.nvim
+	url = https://github.com/Shougo/deoplete.nvim.git
