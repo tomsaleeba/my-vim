@@ -122,10 +122,10 @@ set expandtab
 set smarttab
 
 " 1 tab == N spaces
-" FIXME create something smarter than let's configure setting per repo
+" FIXME create something smarter than *let's configure setting per repo*
 " https://stackoverflow.com/questions/1889602
-set shiftwidth=4
-set tabstop=4
+set shiftwidth=2
+set tabstop=2
 
 " Linebreak on 500 characters
 set lbr
@@ -345,6 +345,14 @@ endif
 " => Deoplete
 """"""""""""""""""""""""""""""
 let g:deoplete#enable_at_startup = 1
+
+
+""""""""""""""""""""""""""""""
+" => vim-prettier
+""""""""""""""""""""""""""""""
+let g:prettier#config#parser = 'typescript'
+let g:prettier#config#semi = 'false'
+let g:prettier#config#single_quote = 'true'
 
 
 """"""""""""""""""""""""""""""
