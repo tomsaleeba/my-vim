@@ -7,3 +7,9 @@ Or just <C-n> will complete strings from the open buffers.
 
 # reload vimrc
 :source ~/.vimrc
+
+# Run external command on buffer and create new buffer with result
+# thanks https://superuser.com/a/435850/384058
+# the # is replaced with the file path
+:new | r ! ls -la #
+:new | r ! grep 'blah' #
