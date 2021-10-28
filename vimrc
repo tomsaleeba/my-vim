@@ -106,7 +106,7 @@ set ffs=unix,dos,mac
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Turn backup off, since most stuff is in SVN, git et.c anyway...
+" Turn backup off, since most stuff is in SVN, git etc anyway...
 set nobackup
 set nowb
 set noswapfile
@@ -353,6 +353,7 @@ let g:deoplete#enable_at_startup = 1
 let g:prettier#config#parser = 'typescript'
 let g:prettier#config#semi = 'false'
 let g:prettier#config#single_quote = 'true'
+let g:prettier#config#bracket_spacing = 'false'
 
 
 """"""""""""""""""""""""""""""
@@ -380,6 +381,7 @@ map <A-f> :CtrlPCurWD<CR>
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|lcov-report|build)|(\.(swp|ico|git|svn|venv|DS_Store|pytest_cache|nuxt|cache|yarn))$'
 let g:ctrlp_show_hidden = 1
+let g:ctrlp_root_markers = ['package.json'] " might only want for certain projects
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -425,6 +427,19 @@ let g:tagbar_type_typescript = {
 vmap Si S(i_<esc>f)
 au FileType mako vmap Si S"i${ _(<esc>2f"a) }<esc>
 xmap S <Plug>VSurround " prefer this over the conflicting yankstack mapping
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vim-yankstack
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" By default, yankstack adds only 2 key bindings, in normal and visual modes:
+"
+"     meta-p - cycle backward through your history of yanks
+"     meta-shift-p - cycle forwards through your history of yanks
+"
+" After pasting some text using p or P, you can cycle through your yank history
+" using these commands. Typing either of these keys without pasting first will do
+" a normal paste (the same as typing p). This also works in insert mode.
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -556,3 +571,13 @@ Glaive codefmt prettier_options=`['--single-quote', '--trailing-comma=all', '--a
 " We need to do this to stop ft-sql from continually complaining with the error:
 " SQLComplete: the dbext plugin must be loaded for dynamic sql completion
 let g:omni_sql_no_default_maps = 1
+
+function! Blame() range
+  execute "normal! mz"
+  execute "%!git blame %"
+  redraw
+  " sleep 100m
+  echom "use z mark for line"
+  " FIXME 'z doesn't work!
+  execute "normal! 'z"
+endfunction
