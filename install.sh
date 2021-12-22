@@ -44,11 +44,12 @@ else
   command -v apt-get > /dev/null 2>&1 && {
     # debian/ubuntu
     sudo apt-get -y install \
+      cmake \
       exuberant-ctags \
-      vim-gtk \
-      libpython2.7-dev \
       g++ \
-      cmake
+      neovim \
+      python3-pip
+    pip install --user "msgpack>=1" # to keep deoplete happy
   }
   command -v pacman > /dev/null 2>&1 && {
     # arch/manjaro
@@ -87,4 +88,5 @@ vim -U NORC -c 'execute pathogen#helptags()' -c q
 echo 'The following also need to be installed
   yarn global add prettier     # for vim-codefmt (js)
   yarn global add js-beautify  # for vim-codefmt (html)
+  yarn global add neovim       # becuase :checkhealth says we need it
 '
