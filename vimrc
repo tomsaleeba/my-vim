@@ -7,6 +7,14 @@ autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 " Sets how many lines of history VIM has to remember
 set history=500
 
+" not a fan on the page scrolling with shift-arrow
+nmap <S-Down> <NOP>
+nmap <S-UP> <NOP>
+vmap <S-Down> <NOP>
+vmap <S-UP> <NOP>
+imap <S-Down> <NOP>
+imap <S-UP> <NOP>
+
 " Enable filetype plugins
 filetype plugin on
 filetype indent on
