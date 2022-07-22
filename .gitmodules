@@ -127,3 +127,6 @@
 [submodule "dot-vim/bundle/vim-prettier"]
 	path = dot-vim/bundle/vim-prettier
 	url = https://github.com/prettier/vim-prettier.git
+[submodule "dot-vim/bundle/vim-smoothie"]
+	path = dot-vim/bundle/vim-smoothie
+	url = https://github.com/psliwka/vim-smoothie.git
