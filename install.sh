@@ -48,7 +48,8 @@ else
       exuberant-ctags \
       g++ \
       neovim \
-      python3-pip
+      python3-pip \
+      silversearcher-ag
     pip install --user "msgpack>=1" # to keep deoplete happy
   }
   command -v pacman > /dev/null 2>&1 && {

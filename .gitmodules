@@ -130,3 +130,6 @@
 [submodule "dot-vim/bundle/vim-smoothie"]
 	path = dot-vim/bundle/vim-smoothie
 	url = https://github.com/psliwka/vim-smoothie.git
+[submodule "dot-vim/bundle/LeaderF"]
+	path = dot-vim/bundle/LeaderF
+	url = https://github.com/Yggdroot/LeaderF.git

@@ -153,10 +153,11 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 map <silent> <leader><cr> :noh<cr>
 
 " Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+nmap <C-j> <C-W>j
+nmap <C-k> <C-W>k
+nmap <C-h> <C-W>h
+nmap <C-l> <C-W>l
+nmap <leader>j <c-w><c-p>
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
@@ -534,6 +535,32 @@ let g:ctrlsf_auto_focus = {
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => leaderf
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
+let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
+
+let g:Lf_ShortcutF = "<leader>fh" " fh for find-here because it's not from project root
+noremap <leader>ff :<C-U><C-R>=printf("ProjectRootExe Leaderf file %s", "")<CR><CR>
+noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+
+let g:Lf_CommandMap = {
+      \ '<C-K>': ['<Up>'],
+      \ '<C-J>': ['<Down>'],
+      \ '<C-X>': ['<C-S>'],
+      \ '<C-S>': ['<C-X>'],
+      \ '<C-]>': ['<C-V>'],
+      \ '<C-V>': ['<C-]>']
+      \}
+
+" FIXME look at ripgrep integration
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => rainbow_levels
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <leader>l :RainbowLevelsToggle<cr>
@@ -574,6 +601,68 @@ Glaive codefmt plugin[mappings]
 Glaive codefmt prettier_options=`['--single-quote', '--trailing-comma=all', '--arrow-parens=avoid', '--print-width=80', '--no-semi']`
 " make sure your env has the following set:
 "   export jsbeautify_indent_size=2
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vim-wordmotion
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" # let g:wordmotion_uppercase_spaces = ['\w\()\)\@='] | call wordmotion#reload()
+" ```
+" barBaz) {
+" ```
+" cW fails: leaves the last char before )
+" ysW' works
+" yW works
+" E fails: cursor is on last 'a', should be on 'z'
+" --------------------------
+" ```
+" barBaz ) {
+" ```
+" cW works
+" ysW' works
+" yW fails: includes space
+" W works
+" --------------------------
+"
+"
+" # let g:wordmotion_uppercase_spaces = [')'] | call wordmotion#reload()
+" ```
+" barBaz) {
+" ```
+" cW works
+" ysW' fails: includes )
+" yW fails: includes ) space
+" E works
+" --------------------------
+" ```
+" barBaz ) {
+" ```
+" cW works
+" ysW' fails: includes )
+" yW fails: includes space ) space
+" E works
+" --------------------------
+"
+"
+" # this is the default config for wordmotion
+" # let g:wordmotion_uppercase_spaces = [] | call wordmotion#reload()
+" ```
+" barBaz) {
+" ```
+" cW fails: consumes the )
+" ysW' fails: includes )
+" yW fails: include ) and space
+" E fail: cursor is on )
+" --------------------------
+" ```
+" barBaz ) {
+" ```
+" cW works
+" ysW' works
+" yW fails: includes space
+" E works
+" --------------------------
+
 
 
 " We need to do this to stop ft-sql from continually complaining with the error:
