@@ -84,7 +84,7 @@ fi
 
 # Pathogen help tags generation (hoping NORC fixes the fact that it doesn't like :set inccommand)
 echo '[INFO] running pathogen#helptags()'
-vim -U NORC -c 'execute pathogen#helptags()' -c q
+nvim -U NORC -c 'execute pathogen#helptags()' -c q
 
 echo 'The following also need to be installed
   yarn global add prettier     # for vim-codefmt (js)
