@@ -38,6 +38,7 @@ command! W w !sudo tee % > /dev/null
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set scrolloff=3
+set mouse=
 
 " Turn on the Wild menu
 set wildmenu
@@ -99,6 +100,10 @@ endif
 
 
 set foldcolumn=0
+
+" for interview docs
+autocmd FileType markdown highlight AskGroup ctermbg=red ctermfg=yellow
+autocmd FileType markdown match AskGroup /ASK/
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -662,7 +667,6 @@ Glaive codefmt prettier_options=`['--single-quote', '--trailing-comma=all', '--a
 " yW fails: includes space
 " E works
 " --------------------------
-
 
 
 " We need to do this to stop ft-sql from continually complaining with the error:
