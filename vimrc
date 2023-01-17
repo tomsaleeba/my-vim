@@ -105,6 +105,10 @@ set foldcolumn=0
 autocmd FileType markdown highlight AskGroup ctermbg=red ctermfg=yellow
 autocmd FileType markdown match AskGroup /ASK/
 
+" to fix busted syntax highlighting, thanks https://stackoverflow.com/a/17189261/1410035
+noremap <F12> <Esc>:syntax sync fromstart<CR>
+inoremap <F12> <C-o>:syntax sync fromstart<CR>
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
@@ -147,12 +151,17 @@ set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
 
+" thanks https://stackoverflow.com/a/49944815/1410035
+nnoremap <silent> * :let @/= '\<\$\?' . substitute(expand('<cword>'), '^\$', '', '') . '\>' <bar> set hls <cr>
+" FIXME support #, might need to set v:searchforward=0 but not sure how
 
-""""""""""""""""""""""""""""""
-" => Visual mode related
-""""""""""""""""""""""""""""""
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+
+" base64 encoding and decoding visual selection
+"   thanks https://www.jvt.me/posts/2022/03/03/vim-command-visual-selection/
+vnoremap <silent> <leader>be c<C-R>=system('base64 -w0', @")<CR><ESC>
+vnoremap <silent> <leader>bd c<C-R>=system('base64 -d', @")<CR><ESC>
 
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
@@ -295,7 +304,7 @@ autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 execute pathogen#infect()
 syntax on
 filetype plugin indent on
-set tw=80
+set tw=90
 set encoding=utf-8
 
 " thanks https://stackoverflow.com/a/6726904/1410035 for split settings
