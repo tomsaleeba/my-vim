@@ -133,3 +133,6 @@
 [submodule "dot-vim/bundle/LeaderF"]
 	path = dot-vim/bundle/LeaderF
 	url = https://github.com/Yggdroot/LeaderF.git
+[submodule "dot-vim/bundle/golden-ratio"]
+	path = dot-vim/bundle/golden-ratio
+	url = https://github.com/roman/golden-ratio.git
