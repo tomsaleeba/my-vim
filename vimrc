@@ -148,7 +148,13 @@ set tabstop=2
 set lbr
 
 set ai "Auto indent
+" FIXME smartindent responsible for
+" - removing indent on }
+" - the annoying '# gets zero indent *always*' behaviour
+"   - the inoremap fixes the insert behaviour, but
+"   - does *not* fix the 'cannot indent # lines' bug
 set si "Smart indent
+inoremap # X#
 set wrap "Wrap lines
 
 " thanks https://stackoverflow.com/a/49944815/1410035
@@ -615,6 +621,18 @@ Glaive codefmt plugin[mappings]
 Glaive codefmt prettier_options=`['--single-quote', '--trailing-comma=all', '--arrow-parens=avoid', '--print-width=80', '--no-semi']`
 " make sure your env has the following set:
 "   export jsbeautify_indent_size=2
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => golden-ratio
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"  it makes NerdTree worse: makes it a bit wider, then locks it there and messes up other
+"  windows... no good :(
+" let g:golden_ratio_exclude_nonmodifiable = 1
+"  https://github.com/Acelya-9028/golden-ratio/commit/da4491453ab859bced658edde296781ad23bae2e?diff=split
+"  doesn't fix the problem either. I think the problem is the 'BufLeave' won't fire for
+"  nerdtree, but the 'WinEnter' *will* fire for the other window you enter, which still
+"  causes a resize on nerdtree.
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
