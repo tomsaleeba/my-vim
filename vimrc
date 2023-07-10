@@ -395,6 +395,8 @@ let delimitMate_matchpairs = "(:),[:],{:}"
 let delimitMate_expand_space = 1
 let delimitMate_expand_cr = 1
 let delimitMate_expand_inside_quotes = 1
+" \%( is just like \( but apparently (https://vi.stackexchange.com/a/9234/18750) faster
+let b:delimitMate_smart_matchpairs = '^\%([^[:space:]]\)'
 
 
 """"""""""""""""""""""""""""""
