@@ -251,7 +251,7 @@ function! VisualSelection(direction, extra_filter) range
     let l:pattern = substitute(l:pattern, "\n$", "", "")
 
     if a:direction == 'gv'
-        call CmdLine("ProjectRootExe CtrlSF \"" . l:pattern . "\" " )
+        call TomProjectRootExeImpl(['CtrlSF "' . l:pattern . '" '])
     elseif a:direction == 'replace'
         call CmdLine("%s" . '/'. l:pattern . '/')
     endif
@@ -549,7 +549,7 @@ autocmd VimEnter * silent echo context_filetype#get()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ctrlsf.vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>g :ProjectRootExe CtrlSF -C 1<space>
+map <leader>g :TomProjectRootExe CtrlSF -C 1<space>
 let g:ctrlsf_auto_focus = {
     \ "at": "done",
     \ "duration_less_than": 1000
@@ -564,8 +564,30 @@ let g:Lf_PreviewInPopup = 1
 let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
 let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
 
+" takes inspiration from vim-projectroot
+function! TomProjectRootExeImpl(theCmd)
+  let olddir = getcwd()
+  try
+    let bashScript =  'origDir="' . olddir . '";'
+    let bashScript .= 'curr=$origDir;'
+    let bashScript .= 'while [ "$curr" != "/" ] ; do'
+    let bashScript .= '  [ -d "$curr/.git" ] && echo $curr && exit;'
+    let bashScript .= '  curr=$(dirname "$curr");'
+    let bashScript .= 'done;'
+    let bashScript .= 'echo "$origDir";'
+    let rootDir = system(bashScript)
+    " echo 'Searching in dir: ' . rootDir
+    exe 'cd' rootDir
+    exe join(a:theCmd)
+  finally
+    exe 'cd' fnameescape(olddir)
+  endtry
+endfunction
+command! -nargs=* -complete=command TomProjectRootExe :call TomProjectRootExeImpl([<f-args>])
+
+
 let g:Lf_ShortcutF = "<leader>fh" " fh for find-here because it's not from project root
-noremap <leader>ff :<C-U><C-R>=printf("ProjectRootExe Leaderf file %s", "")<CR><CR>
+noremap <leader>ff :TomProjectRootExe Leaderf file<CR>
 noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
 noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
 noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
@@ -628,8 +650,9 @@ Glaive codefmt prettier_options=`['--single-quote', '--trailing-comma=all', '--a
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => golden-ratio
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"  it makes NerdTree worse: makes it a bit wider, then locks it there and messes up other
-"  windows... no good :(
+" Messes with NerdTree by making the NerdTree window a bit wider, then locks it there and messes up other
+"   windows... no good :(
+" This plugin also messes with the 'last split with focus'
 " let g:golden_ratio_exclude_nonmodifiable = 1
 "  https://github.com/Acelya-9028/golden-ratio/commit/da4491453ab859bced658edde296781ad23bae2e?diff=split
 "  doesn't fix the problem either. I think the problem is the 'BufLeave' won't fire for
