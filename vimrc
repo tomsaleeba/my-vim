@@ -1,10 +1,7 @@
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 
 " Ripped off parts from https://github.com/amix/vimrc
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Sets how many lines of history VIM has to remember
+
 set history=500
 
 " not a fan on the page scrolling with shift-arrow
@@ -14,10 +11,6 @@ vmap <S-Down> <NOP>
 vmap <S-UP> <NOP>
 imap <S-Down> <NOP>
 imap <S-UP> <NOP>
-
-" Enable filetype plugins
-filetype plugin on
-filetype indent on
 
 " Set to auto read when a file is changed from the outside
 set autoread
@@ -33,10 +26,6 @@ nmap <leader>w :w!<cr>
 " (useful for handling the permission-denied error)
 command! W w !sudo tee % > /dev/null
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set scrolloff=3
 set mouse=
 
@@ -109,29 +98,17 @@ autocmd FileType markdown match AskGroup /ASK/
 noremap <F12> <Esc>:syntax sync fromstart<CR>
 inoremap <F12> <C-o>:syntax sync fromstart<CR>
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colors and Fonts
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Files, backups and undo
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn backup off, since most stuff is in SVN, git etc anyway...
 set nobackup
 set nowb
 set noswapfile
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent related
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use spaces instead of tabs
 set expandtab
 
@@ -146,16 +123,14 @@ set tabstop=2
 
 " Linebreak on 500 characters
 set lbr
-
-set ai "Auto indent
-" FIXME smartindent responsible for
-" - removing indent on }
-" - the annoying '# gets zero indent *always*' behaviour
-"   - the inoremap fixes the insert behaviour, but
-"   - does *not* fix the 'cannot indent # lines' bug
-set si "Smart indent
-inoremap # X#
 set wrap "Wrap lines
+
+" search for "filetype-indent-on" at https://vimdoc.sourceforge.net/htmldoc/filetype.html
+filetype indent on
+set autoindent
+" we do *not* want smartindent because we have filetype specific indent rules from the
+"  command above. smartindent is responsible for the annoying '# gets zero indent *always*' behaviour
+set nosmartindent
 
 " thanks https://stackoverflow.com/a/49944815/1410035
 nnoremap <silent> * :let @/= '\<\$\?' . substitute(expand('<cword>'), '^\$', '', '') . '\>' <bar> set hls <cr>
@@ -196,10 +171,6 @@ endtry
 " Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Editing mappings
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Move a line of text using ALT+[jk] or Command+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
 nmap <M-k> mz:m-2<cr>`z
@@ -226,19 +197,12 @@ if has("autocmd")
     " autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
 endif
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Misc
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remove the Windows ^M - when the encodings gets messed up
 noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Toggle paste mode on and off
 map <leader>pp :setlocal paste!<cr>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Helper functions
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! CmdLine(str)
     call feedkeys(":" . a:str)
 endfunction
@@ -259,7 +223,6 @@ function! VisualSelection(direction, extra_filter) range
     let @/ = l:pattern
     let @" = l:saved_reg
 endfunction
-" end of amix/basic.vim
 
 " Disable scrollbars (real hackers don't use scrollbars for navigation!)
 set guioptions-=r
@@ -267,30 +230,13 @@ set guioptions-=R
 set guioptions-=l
 set guioptions-=L
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Turn persistent undo on
 "    means that you can undo even when you close a buffer/VIM
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 try
-    set undodir=~/.vim_runtime/temp_dirs/undodir
-    set undofile
+  set undodir=~/.vim_runtime/temp_dirs/undodir
+  set undofile
 catch
 endtry
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Command mode related
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Smart mappings on the command line
-cno $h e ~/
-cno $d e ~/Desktop/
-cno $j e ./
-cno $c e <C-\>eCurrentFileDir("e")<cr>
-
-" $q is super useful when browsing on the command line
-" it deletes everything until the last slash
-cno $q <C-\>eDeleteTillSlash()<cr>
 
 " Bash like keys for the command line
 cnoremap <C-A>		<Home>
@@ -300,16 +246,12 @@ cnoremap <C-K>		<C-U>
 cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Omni complete functions
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" FIXME this is from amix, does it work?
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-" end of amix/extended.vim
 
 execute pathogen#infect()
 syntax on
-filetype plugin indent on
+filetype plugin on
 set tw=90
 set encoding=utf-8
 
@@ -317,7 +259,6 @@ set encoding=utf-8
 set splitbelow
 set splitright
 
-" color and theme
 set background=dark
 colorscheme gruvbox
 set relativenumber
