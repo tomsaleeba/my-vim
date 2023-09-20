@@ -125,7 +125,7 @@ set tabstop=2
 set lbr
 set wrap "Wrap lines
 
-" search for "filetype-indent-on" at https://vimdoc.sourceforge.net/htmldoc/filetype.html
+" search for filetype-indent-on at https://vimdoc.sourceforge.net/htmldoc/filetype.html
 filetype indent on
 set autoindent
 " we do *not* want smartindent because we have filetype specific indent rules from the
@@ -144,7 +144,7 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 vnoremap <silent> <leader>be c<C-R>=system('base64 -w0', @")<CR><ESC>
 vnoremap <silent> <leader>bd c<C-R>=system('base64 -d', @")<CR><ESC>
 
-" Disable highlight when <leader><cr> is pressed
+" Disable highlight
 map <silent> <leader><cr> :noh<cr>
 
 " Smart way to move between windows
