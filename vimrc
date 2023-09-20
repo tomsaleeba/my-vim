@@ -337,8 +337,21 @@ let delimitMate_expand_space = 1
 let delimitMate_expand_cr = 1
 let delimitMate_expand_inside_quotes = 1
 let delimitMate_nesting_quotes = ['"',"'"]
-" \%( is just like \( but apparently (https://vi.stackexchange.com/a/9234/18750) faster
-let b:delimitMate_smart_matchpairs = '^\%([^[:space:]]\)'
+" Do insert closing bracket when:
+" - at EOL
+" - next char is space
+" - next char is closing paren (js fat arrow)
+" - next char is dot (make var a fn call)
+" Do not insert closing bracket when:
+" - next char is single or double quote (going to wrap string)
+" - next char is opening bracket (going to wrap)
+" - next char is word-ish (going to wrap)
+" Known bugs:
+" - no closing happens in vim{script,config} comments
+" \! is the char being inserted
+" square bracket literal in char class need double escape
+let b:delimitMate_smart_matchpairs = '^\%(\w\|\!\|[^)}\\].[:space:]]\)'
+
 
 
 """"""""""""""""""""""""""""""
