@@ -341,18 +341,19 @@ let delimitMate_expand_inside_quotes = 1
 let delimitMate_nesting_quotes = ['"',"'"]
 " Do insert closing bracket when:
 " - at EOL
-" - next char is space
 " - next char is closing paren (js fat arrow)
 " - next char is dot (make var a fn call)
+" - next char is space
 " Do not insert closing bracket when:
 " - next char is single or double quote (going to wrap string)
 " - next char is opening bracket (going to wrap)
 " - next char is word-ish (going to wrap)
 " Known bugs:
 " - no closing happens in vim{script,config} comments
-" \! is the char being inserted
-" square bracket literal in char class need double escape
-let b:delimitMate_smart_matchpairs = '^\%(\w\|\!\|[^)}\\].[:space:]]\)'
+" Notes:
+" - square bracket literal as first char in class means no escaping
+" - when this regex matches, no closing pair will be inserted
+let b:delimitMate_smart_matchpairs = '^[^])}. ]'
 
 
 
