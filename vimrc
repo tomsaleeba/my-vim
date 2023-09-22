@@ -93,6 +93,8 @@ set foldcolumn=0
 " for interview docs
 autocmd FileType markdown highlight AskGroup ctermbg=red ctermfg=yellow
 autocmd FileType markdown match AskGroup /ASK/
+autocmd FileType markdown set shiftwidth=2
+autocmd FileType markdown set tabstop=2
 
 " to fix busted syntax highlighting, thanks https://stackoverflow.com/a/17189261/1410035
 noremap <F12> <Esc>:syntax sync fromstart<CR>
