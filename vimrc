@@ -269,6 +269,8 @@ set cursorline
 
 " Set Vim working directory to the current location
 set autochdir
+" FIXME opening a file in a new tab from fzf doesn't set the dir, but c-6 c-6 to flip the
+"  buffer fixes it
 
 " Python specific
 autocmd FileType python set tw=0  " let the linter handle this
@@ -344,6 +346,7 @@ let delimitMate_nesting_quotes = ['"',"'"]
 " - next char is closing paren (js fat arrow)
 " - next char is dot (make var a fn call)
 " - next char is space
+" - next char is backtick (js string)
 " Do not insert closing bracket when:
 " - next char is single or double quote (going to wrap string)
 " - next char is opening bracket (going to wrap)
@@ -353,7 +356,7 @@ let delimitMate_nesting_quotes = ['"',"'"]
 " Notes:
 " - square bracket literal as first char in class means no escaping
 " - when this regex matches, no closing pair will be inserted
-let b:delimitMate_smart_matchpairs = '^[^])}. ]'
+let b:delimitMate_smart_matchpairs = '^[^])}.` ]'
 
 
 
