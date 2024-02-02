@@ -273,7 +273,7 @@ set cursorline
 " Set Vim working directory to the current location
 set autochdir
 " FIXME opening a file in a new tab from fzf doesn't set the dir, but c-6 c-6 to flip the
-"  buffer fixes it
+"  buffer sometimes fixes it, otherwise <leader>cd
 
 " Python specific
 autocmd FileType python set tw=0  " let the linter handle this
@@ -350,10 +350,12 @@ let delimitMate_nesting_quotes = ['"',"'"]
 " - next char is dot (make var a fn call)
 " - next char is space
 " - next char is backtick (js string)
-" Do not insert closing bracket when:
+" Do *not* insert closing bracket when:
 " - next char is single or double quote (going to wrap string)
 " - next char is opening bracket (going to wrap)
 " - next char is word-ish (going to wrap)
+" Do *not* insert closing quote when:
+" - next char is dollar sign  FIXME does this plugin handle quotes?
 " Known bugs:
 " - no closing happens in vim{script,config} comments
 " Notes:
