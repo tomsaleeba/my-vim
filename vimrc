@@ -226,6 +226,9 @@ function! VisualSelection(direction, extra_filter) range
     let @" = l:saved_reg
 endfunction
 
+" select last pasted block
+nnoremap <expr> <leader>v '`[v`]'
+
 " Disable scrollbars (real hackers don't use scrollbars for navigation!)
 set guioptions-=r
 set guioptions-=R
