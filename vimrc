@@ -613,19 +613,6 @@ Glaive codefmt prettier_options=`['--single-quote', '--trailing-comma=all', '--a
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => golden-ratio
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Messes with NerdTree by making the NerdTree window a bit wider, then locks it there and messes up other
-"   windows... no good :(
-" This plugin also messes with the 'last split with focus'
-" let g:golden_ratio_exclude_nonmodifiable = 1
-"  https://github.com/Acelya-9028/golden-ratio/commit/da4491453ab859bced658edde296781ad23bae2e?diff=split
-"  doesn't fix the problem either. I think the problem is the 'BufLeave' won't fire for
-"  nerdtree, but the 'WinEnter' *will* fire for the other window you enter, which still
-"  causes a resize on nerdtree.
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-wordmotion
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " # let g:wordmotion_uppercase_spaces = ['\w\()\)\@='] | call wordmotion#reload()
