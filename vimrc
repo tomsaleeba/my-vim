@@ -149,6 +149,9 @@ vnoremap <silent> <leader>bd c<C-R>=system('base64 -d', @")<CR><ESC>
 " exit insert mode with kj
 inoremap kj <Esc>
 
+" find in visual selection
+vnoremap <leader>f :/\%V
+
 " Disable highlight
 map <silent> <leader><cr> :noh<cr>
 
