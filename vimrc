@@ -146,6 +146,9 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 vnoremap <silent> <leader>be c<C-R>=system('base64 -w0', @")<CR><ESC>
 vnoremap <silent> <leader>bd c<C-R>=system('base64 -d', @")<CR><ESC>
 
+" exit insert mode with kj
+inoremap kj <Esc>
+
 " Disable highlight
 map <silent> <leader><cr> :noh<cr>
 
