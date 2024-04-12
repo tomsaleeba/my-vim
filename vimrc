@@ -544,7 +544,7 @@ function! TomProjectRootExeImpl(theCmd)
     let bashScript =  'origDir="' . olddir . '";'
     let bashScript .= 'curr=$origDir;'
     let bashScript .= 'while [ "$curr" != "/" ] ; do'
-    let bashScript .= '  [ -d "$curr/.git" ] && echo $curr && exit;'
+    let bashScript .= '  [ -e "$curr/.git" ] && echo $curr && exit;'
     let bashScript .= '  curr=$(dirname "$curr");'
     let bashScript .= 'done;'
     let bashScript .= 'echo "$origDir";'
