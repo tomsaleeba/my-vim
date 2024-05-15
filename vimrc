@@ -334,6 +334,14 @@ let g:deoplete#enable_at_startup = 1
 " => dadbod + related
 """"""""""""""""""""""""""""""
 autocmd FileType dbout setlocal nofoldenable " https://github.com/kristijanhusak/vim-dadbod-ui/issues/107#issuecomment-907341998
+let g:db_ui_table_helpers = {
+\   'mysql': {
+\     'Count': 'select count(*) from `{schema}`.`{table}`'
+\   }
+\ }
+" load adhoc URL with:
+"   DBUI_URL=mysql://user:pass@somehost vim -c DBUI -c 'norm jj'
+" ...then you hit <cr> to connect. FIXME how to auto-connect and open blank query?
 
 
 """"""""""""""""""""""""""""""
