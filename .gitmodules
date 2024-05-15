@@ -136,3 +136,12 @@
 [submodule "dot-vim/bundle/golden-ratio"]
 	path = dot-vim/bundle/golden-ratio
 	url = https://github.com/roman/golden-ratio.git
+[submodule "dot-vim/bundle/vim-dadbod"]
+	path = dot-vim/bundle/vim-dadbod
+	url = https://github.com/tpope/vim-dadbod.git
+[submodule "dot-vim/bundle/vim-dadbod-ui"]
+	path = dot-vim/bundle/vim-dadbod-ui
+	url = https://github.com/kristijanhusak/vim-dadbod-ui.git
+[submodule "dot-vim/bundle/vim-dadbod-completion"]
+	path = dot-vim/bundle/vim-dadbod-completion
+	url = https://github.com/kristijanhusak/vim-dadbod-completion.git

@@ -331,6 +331,12 @@ let g:deoplete#enable_at_startup = 1
 
 
 """"""""""""""""""""""""""""""
+" => dadbod + related
+""""""""""""""""""""""""""""""
+autocmd FileType dbout setlocal nofoldenable " https://github.com/kristijanhusak/vim-dadbod-ui/issues/107#issuecomment-907341998
+
+
+""""""""""""""""""""""""""""""
 " => vim-prettier
 """"""""""""""""""""""""""""""
 let g:prettier#config#parser = 'typescript'
