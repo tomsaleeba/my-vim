@@ -336,7 +336,8 @@ let g:deoplete#enable_at_startup = 1
 autocmd FileType dbout setlocal nofoldenable " https://github.com/kristijanhusak/vim-dadbod-ui/issues/107#issuecomment-907341998
 let g:db_ui_table_helpers = {
 \   'mysql': {
-\     'Count': 'select count(*) from `{schema}`.`{table}`'
+\     'count': 'select count(*) from `{schema}`.`{table}`',
+\     'create-table': 'show create table `{schema}`.`{table}`'
 \   }
 \ }
 " load adhoc URL with:
