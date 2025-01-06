@@ -469,8 +469,16 @@ set laststatus=2
 let g:airline#extensions#wordcount#enabled = 0
 let g:airline#extensions#branch#enabled = 0
 let g:airline#extensions#tagbar#enabled = 0
-" remove B (version control) section
-let g:airline#extensions#default#layout = [  [ 'a', 'c' ],  [ 'x', 'y', 'z', 'error', 'warning' ]  ]
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+" declutter cursor pos
+let g:airline_symbols.linenr = ' '
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.colnr = ':'
+" show search in own section
+let airline#extensions#searchcount#enabled = 0
+let g:airline_section_b = '%#__accent_red#%{v:hlsearch ? airline#extensions#searchcount#status() : ""}'
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
