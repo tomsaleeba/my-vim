@@ -35,34 +35,53 @@ function doSymlink {
 doSymlink ~/.vimrc vimrc
 doSymlink ~/.vim dot-vim
 
-# Install gvim/neovim. Even if you want to use vim in a terminal, this is good
-# because you get the fully featured vim (with clipboard integration)
-if [ "$isQuickMode" == "1" ]; then
-  echo '[INFO] skipping gvim/neovim install or update'
-else
-  echo '[INFO] installing/updating gvim'
-  command -v apt-get > /dev/null 2>&1 && {
-    # debian/ubuntu
-    sudo apt-get -y install \
-      cmake \
-      exuberant-ctags \
-      g++ \
-      neovim \
-      python3-pip \
-      silversearcher-ag
-    pip install --user "msgpack>=1" # to keep deoplete happy
+command -v apt-get > /dev/null 2>&1 && {
+  # debian/ubuntu
+  missing=()
+  command -v cmake > /dev/null 2>&1 || missing+=(cmake)
+  command -v ctags-exuberant > /dev/null 2>&1 || command -v ctags > /dev/null 2>&1 || missing+=(exuberant-ctags)
+  command -v g++ > /dev/null 2>&1 || missing+=(g++)
+  command -v nvim > /dev/null 2>&1 || missing+=(neovim)
+  command -v pip3 > /dev/null 2>&1 || missing+=(python3-pip)
+  command -v ag > /dev/null 2>&1 || missing+=(silversearcher-ag)
+
+  if [ ${#missing[@]} -eq 0 ]; then
+    echo '[INFO] neovim and dependencies already installed'
+  else
+    echo '[INFO] missing packages detected, run:'
+    echo
+    echo "  sudo apt-get -y install ${missing[*]}"
+    echo
+  fi
+
+  # msgpack python module (needed by deoplete) is checked separately
+  python3 -c "import msgpack" > /dev/null 2>&1 || {
+    echo '[INFO] python msgpack module missing, run:'
+    echo
+    echo '  pip install --user "msgpack>=1"'
+    echo
   }
-  command -v pacman > /dev/null 2>&1 && {
-    # arch/manjaro
-    sudo pacman --noconfirm --needed -Sy \
-      ctags \
-      gcc \
-      cmake \
-      neovim \
-      python-neovim \
-      # clang # for vim-codefmt on C
-  }
-fi
+}
+
+command -v pacman > /dev/null 2>&1 && {
+  # arch/manjaro
+  missing=()
+  command -v ctags > /dev/null 2>&1 || missing+=(ctags)
+  command -v gcc > /dev/null 2>&1 || missing+=(gcc)
+  command -v cmake > /dev/null 2>&1 || missing+=(cmake)
+  command -v nvim > /dev/null 2>&1 || missing+=(neovim)
+  python3 -c "import pynvim" > /dev/null 2>&1 || missing+=(python-neovim)
+  # clang # for vim-codefmt on C
+
+  if [ ${#missing[@]} -eq 0 ]; then
+    echo '[INFO] neovim and dependencies already installed'
+  else
+    echo '[INFO] missing packages detected, run:'
+    echo
+    echo "  sudo pacman --needed -S ${missing[*]}"
+    echo
+  fi
+}
 
 installPowerline () {
   pushd /tmp > /dev/null
