@@ -95,6 +95,16 @@ installPowerline () {
   popd > /dev/null
 }
 
+nvimConfigPath=$HOME/.config/nvim/init.vim
+if [ ! -f "$nvimConfigPath" ]; then
+  echo "[INFO] no neovim config ($nvimConfigPath) exists, creating..."
+  cat << "HEREDOC" > "$nvimConfigPath"
+set runtimepath^=~/.vim runtimepath+=~/.vim/after
+let &packpath = &runtimepath
+source ~/.vimrc
+HEREDOC
+fi
+
 if [ "$isQuickMode" == "1" ]; then
   echo '[INFO] skipping install/update of powerline fonts'
 else
